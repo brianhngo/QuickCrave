@@ -1,6 +1,16 @@
 <body class="w-[100%] h-[100%]">
-  <section class="w-screen h-screen bg-gray-200">
+  <section class="w-screen h-screen">
+    <ng-template *ngIf="AuthService.isModalOpen">
+      <app-modal></app-modal>
+    </ng-template>
+
     <app-navigation-bar> </app-navigation-bar>
     <app-hero-banner1> </app-hero-banner1>
+    <app-hero-banner2> </app-hero-banner2>
+    <app-hero-banner3> </app-hero-banner3>
+    <app-hero-banner4> </app-hero-banner4>
+    <app-hero-banner5> </app-hero-banner5>
+    <app-about-us> </app-about-us>
+    <app-footer> </app-footer>
   </section>
 </body>
