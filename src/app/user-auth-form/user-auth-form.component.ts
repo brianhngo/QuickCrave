@@ -29,9 +29,6 @@ export class UserAuthFormComponent {
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
-    // Check if showSignIn is not set, then set it to 'signin'
-    if (this.authService.showSignIn === 'signup') {
-      this.authService.showSignIn = 'signup';
-    }
+    console.log(this.authService.showSignIn, '/login');
   }
 }

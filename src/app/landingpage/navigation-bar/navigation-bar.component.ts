@@ -14,9 +14,9 @@ import { Router } from '@angular/router';
 export class NavigationBarComponent {
   constructor(public authService: AuthService, private router: Router) {}
 
-  navigateAndSetState(route: any): void {
+  navigateAndSetState(route: 'signin' | 'signup'): void {
     this.authService.showSignIn = route;
-    console.log(this.authService.showSignIn);
-    this.router.navigate(['/login']);
+
+    this.router.navigate([`${route}`]);
   }
 }

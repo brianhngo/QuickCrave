@@ -59,19 +59,19 @@
   <!-- Tab Buttons -->
   <div class="flex w-[200px] h-[40px] mx-auto mt-5 mb-5 cursor-pointer">
     <button
-      class="flex-1 flex items-center justify-center rounded-l-full bg-black"
-    >
-      <p class="text-bold text-xl text-white">Sign In</p>
-    </button>
-
-    <button
-      class="flex-1 flex items-center justify-center rounded-r-full bg-gray-300 hover:bg-gray-200"
+      class="flex-1 flex items-center justify-center rounded-l-full bg-gray-300 hover:bg-gray-200'"
       type="button"
     >
-      <a class="text-xl text-bold text-white" routerLink="/signup">Sign Up</a>
+      <a class="text-bold text-xl text-white" routerLink="/signin">Sign In</a>
+    </button>
+    <button
+      class="flex-1 flex items-center justify-center rounded-r-full bg-black"
+      type="button"
+      disabled
+    >
+      <p class="text-xl text-bold text-white">Sign Up</p>
     </button>
   </div>
 
-  <app-login-page *ngIf="authService.showSignIn === 'signin'"></app-login-page>
-  <app-sign-up *ngIf="authService.showSignIn === 'signup'"></app-sign-up>
+  <app-sign-up></app-sign-up>
 </div>
