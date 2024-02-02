@@ -1,99 +1,81 @@
 <!-- Parent Container -->
-<div class="flex justify-center items-center h-screen">
-  <div
-    class="flex flex-col justify-center align-middle border border-black rounded-md p-5 max-w-[600px] w-full max-h-[625px]"
-  >
-    <div class="mt-5 justify-center align-middle">
-      <button
-        (click)="AuthService.closeModal()"
-        class="block w-[50px] h-[50px] left-0 rounded-full text-2xl p-1 bg-white hover:bg-gray-200"
-      >
-        X
-      </button>
-    </div>
-    <h1 class="text-4xl text-center">Sign in with your QuickCrave account</h1>
-    <!-- Tab Buttons -->
-    <div class="flex w-[200px] h-[40px] mx-auto mt-4 cursor-pointer">
-      <div
-        class="flex-1 flex items-center justify-center rounded-l-full bg-gray-800 hover:bg-gray-600"
-      >
-        <p class="text-bold text-xl text-white">Sign In</p>
-      </div>
-      <div
-        class="flex-1 flex items-center justify-center rounded-r-full bg-gray-300 hover:bg-gray-200"
-        (click)="AuthService.changeModal()"
-      >
-        <p class="text-xl text-bold text-white">Sign Up</p>
-      </div>
-    </div>
-    <!-- Email and PW Input  -->
-    <form>
-      <div class="mb-6">
-        <label
-          for="default-input"
-          class="block mb-2 text-xl font-medium text-black-100"
-        >
-          Email
-        </label>
-        <input
-          type="email"
-          id="default-input"
-          placeholder="your@email.com"
-          class="bg-gray-50 border border-gray-300 text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <div class="mb-6">
-        <label
-          for="default-input"
-          class="block mb-2 text-xl font-medium text-black-100"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          id="default-input"
-          placeholder="Enter your password"
-          class="bg-gray-50 border border-gray-300 text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <div class="mx-auto flex w-[200px] flex-col justify-center align-middle">
-        <button
-          class="text-white block bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900"
-        >
-          Sign In
-        </button>
-      </div>
-    </form>
-    <!-- Divider -->
-    <div class="flex flex-row items-center">
-      <div class="flex-1 border border-b-black"></div>
-      <div class="mx-4">or log in with external services</div>
-      <div class="flex-1 border border-b-black"></div>
-    </div>
 
-    <!-- External Login -->
-    <div class="mt-5 mb-5 mx-auto">
-      <button
-        type="button"
-        class="text-white mx-auto text-lg bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center justify-between dark:focus:ring-blue-800 mr-2 mb-2"
-      >
-        <svg
-          class="mr-2 ml-1 w-[40px] h-[20px]"
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fab"
-          data-icon="google"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 488 512"
-        >
-          <path
-            fill="currentColor"
-            d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-          ></path>
-        </svg>
-        Sign in with Google
-      </button>
-    </div>
+<h1 class="text-4xl text-center">Sign in with your QuickCrave account</h1>
+<!-- Email and PW Input  -->
+<form>
+  <div class="mb-6">
+    <label
+      for="email-input"
+      class="block mb-2 text-xl font-medium text-black-100"
+    >
+      Email
+    </label>
+    <input
+      [(ngModel)]="user.username"
+      required
+      id="email-input"
+      name="email"
+      type="email"
+      placeholder="your@email.com"
+      class="bg-gray-50 border border-gray-300 text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    />
   </div>
+  <div class="mb-6">
+    <label
+      for="password-input"
+      class="block mb-2 text-xl font-medium text-black-100"
+    >
+      Password
+    </label>
+    <input
+      [(ngModel)]="user.password"
+      required
+      id="password-input"
+      name="password"
+      type="password"
+      placeholder="Enter your password"
+      class="bg-gray-50 border border-gray-300 text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    />
+  </div>
+
+  <div class="mx-auto flex w-[200px] flex-col justify-center align-middle">
+    <button
+      (click)="handleUserAuth()"
+      class="text-white block bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900"
+    >
+      Sign In
+    </button>
+  </div>
+</form>
+<!-- Divider -->
+<div class="flex flex-row items-center">
+  <div class="flex-1 border border-b-black"></div>
+  <div class="mx-4">or log in with external services</div>
+  <div class="flex-1 border border-b-black"></div>
+</div>
+
+<!-- External Login -->
+<div class="flex flex-col justify-center items-center mx-auto mb-5 mt-5">
+  <button
+    type="button"
+    (click)="handleGoogleLogin()"
+    class="text-white text-lg bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center justify-between mr-2 mb-2"
+  >
+    <svg
+      class="mr-2 ml-1 w-[40px] h-[20px]"
+      aria-hidden="true"
+      focusable="false"
+      data-prefix="fab"
+      data-icon="google"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 488 512"
+    >
+      <path
+        fill="currentColor"
+        d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+      ></path>
+    </svg>
+    Sign in with Google
+  </button>
 </div>
