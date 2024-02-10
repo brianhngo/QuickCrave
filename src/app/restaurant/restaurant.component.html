@@ -1,5 +1,5 @@
 <body>
-  <!-- Header  -->
+  <!-- Header -->
   <div
     class="w-full h-[10%] flex flex-row border border-gray-400 shadow-lg align-middle justify-between"
   >
@@ -152,24 +152,13 @@
       </div>
     </div>
   </div>
+  <!-- Card  -->
+  <div class="w-[85%] pt-5 p-1 h-screen mx-auto">
+    <!-- Restauraunt Info -->
+    <app-restaurant-header> </app-restaurant-header>
+  </div>
 
-  <div class="w-[85%] pt-5 h-screen mx-auto">
-    <app-icon-filter></app-icon-filter>
-
-    <!-- Rating Filter -->
-    <app-button-filter></app-button-filter>
-
-    <!-- Sort By price, etc -->
-    <app-sort-component> </app-sort-component>
-
-    <!-- Restaurant List -->
-    <div
-      class="w-full pt-5 h-full mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"
-    >
-      <app-restaurant-card></app-restaurant-card>
-      <app-restaurant-card></app-restaurant-card>
-      <app-restaurant-card></app-restaurant-card>
-      <app-restaurant-card></app-restaurant-card>
-    </div>
+  <div class="w-[85%] pt-2 p-1 h-screen mx-auto">
+    <app-restaurant-menu> </app-restaurant-menu>
   </div>
 </body>

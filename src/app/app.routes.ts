@@ -6,12 +6,14 @@ import { UserAuthFormComponent } from './user-auth-form/user-auth-form.component
 import { CreateUserAuthFormComponent } from './create-user-auth-form/create-user-auth-form.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { RestaurantCardComponent } from './catalog/restaurant-card/restaurant-card.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
 
 export const routes: Routes = [
   { path: 'signin', component: UserAuthFormComponent },
   { path: 'signup', component: CreateUserAuthFormComponent },
   { path: 'catalog', component: CatalogComponent },
-  { path: 'restaurant', component: RestaurantCardComponent },
+  { path: 'restaurantCard', component: RestaurantCardComponent },
+  { path: 'restaurant', component: RestaurantComponent },
   { path: '', component: LandingpageComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '/' },
 ];

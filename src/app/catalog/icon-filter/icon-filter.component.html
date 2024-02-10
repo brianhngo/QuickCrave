@@ -1,0 +1,42 @@
+<div class="flex w-full flex-row justify-between gap-1">
+  <div
+    class="flex flex-col w-10 h-10 mx-auto my-auto justify-center items-center cursor-pointer rounded-full p-2 hover:bg-gray-400"
+    (click)="prevCategory()"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="24"
+      viewBox="0 -960 960 960"
+      width="24"
+      class="w-6 h-6 text-gray-600 hover:text-blue-500"
+    >
+      <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+    </svg>
+  </div>
+
+  <div
+    class="flex flex-row justify-between gap-5 flex-grow overflow-x-auto whitespace-no-wrap"
+  >
+    <!-- ng-container with categories here -->
+    <ng-container *ngFor="let category of displayedCategories; let i = index">
+      <div (click)="selectCategory(i)" class="cursor-pointer">
+        <img class="w-[85px] h-[85px]" [src]="category.imageUrl" />
+        <p class="text-sm text-center">{{ category.name }}</p>
+      </div>
+    </ng-container>
+  </div>
+
+  <div
+    class="flex flex-col w-10 h-10 mx-auto my-auto justify-center items-center cursor-pointer rounded-full p-2 hover:bg-gray-400"
+    (click)="nextCategory()"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="24"
+      viewBox="0 -960 960 960"
+      width="24"
+    >
+      <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
+    </svg>
+  </div>
+</div>
