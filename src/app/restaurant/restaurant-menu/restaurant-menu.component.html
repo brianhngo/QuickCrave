@@ -1,8 +1,7 @@
-<div class="flex">
+<div class="flex w-full">
   <!-- Side Bar -->
-
   <!-- Need to add backend -->
-  <div class="h-full w-[20%]">
+  <div class="h-full w-[15%]">
     <ul
       class="flex w-full flex-col items-center justify-center h-full text-center gap-2"
     >
@@ -22,10 +21,16 @@
     </ul>
   </div>
   <!-- Menu Items -->
-  <div class="p-7 flex-1 h-full">
-    <h1 class="text-2xl font-semibold">Popular Items</h1>
-    <p class="text-lg">
-      This most commonly ordered items and dishes from this store
+  <div class="pl-3 flex-1 h-full w-full">
+    <h1 class="text-3xl font-semibold pb-1">Popular Items</h1>
+    <p class="text-xl pb-5 pt-1">
+      The most commonly ordered items and dishes from this store
     </p>
+    <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <app-item-card class="w-full"></app-item-card>
+      <app-item-card class="w-full"></app-item-card>
+      <app-item-card class="w-full"></app-item-card>
+      <app-item-card class="w-full"></app-item-card>
+    </div>
   </div>
 </div>

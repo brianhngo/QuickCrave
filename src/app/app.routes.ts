@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: 'restaurantCard', component: RestaurantCardComponent },
   { path: 'restaurant', component: RestaurantComponent },
   { path: '', component: LandingpageComponent, pathMatch: 'full' },
+
   { path: '**', redirectTo: '/' },
 ];
 

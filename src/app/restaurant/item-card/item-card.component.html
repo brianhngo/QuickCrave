@@ -1,0 +1,40 @@
+<!-- Place modal template outside of the parent container -->
+<div class="w-full h-full cursor-pointer" (click)="openModal(modalTemplate)">
+  <div
+    class="flex flex-row border border-gray-400 shadow-lg rounded-lg overflow-hidden"
+  >
+    <!-- Left Side of the container -->
+    <div class="flex flex-col w-3/4 p-4">
+      <h1 class="text-2xl font-bold">Classic Basque Cheesecake</h1>
+      <div class="mt-2 text-gray-600 truncate-custom line-clamp-2">
+        Super creamy Cheesecake with a Delicious and Uniquely 'Burnt" Top,
+        Covered with Fresh Berries, Slight Frosting, and a layer of our
+        delicious graham cracker crust. All made fresh to order and with plenty
+        of care
+      </div>
+      <p class="mt-2 text-gray-600">$24.95</p>
+    </div>
+    <!-- Right Side of the container -->
+    <div class="w-1/4 relative">
+      <img
+        src="../../../assets/Images/cheesecake.jpg"
+        class="w-full h-full rounded-lg"
+        alt="Cheesecake Image"
+      />
+      <button
+        class="absolute bottom-0 right-0 mb-2 mr-2 py-2 px-4 bg-white text-black rounded-full shadow-md hover:bg-gray-400"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Template -->
+<ng-template #modalTemplate>
+  <div
+    class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <div>This is our custom modal content</div>
+  </div>
+</ng-template>
