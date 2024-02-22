@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { supabase } from '../../../supabase.config';
 
 @Component({
   selector: 'app-sign-up',
@@ -31,6 +32,20 @@ export class SignUpComponent {
       const user = userCredential.user;
 
       if (user) {
+        const { data, error } = await supabase.from('users').insert([
+          {
+            firebaseId: user.uid,
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            email: this.user.email,
+            password: this.user.password,
+          },
+        ]);
+
+        if (error) {
+          throw error;
+        }
+
         this.router.navigate(['/']);
       }
       // Additional actions if needed...
