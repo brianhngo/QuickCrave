@@ -1,0 +1,322 @@
+<div
+  class="bg-white w-full flex flex-col justify-center align-middle gap-5 px-3 md:px-16 mx-auto lg:px-28 text-[#161931]"
+>
+  <h1 class="text-center text-5xl text-black">Billing & Payment</h1>
+  <div class="flex flex-col justify-center items-center mx-auto">
+    <button
+      type="submit"
+      class="text-white w-[100px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
+    >
+      Add Card
+    </button>
+  </div>
+  <div class="overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right bg-indigo-800">
+      <thead class="text-xs uppercase bg-slate-700 text-gray-200">
+        <tr>
+          <th scope="col" class="px-6 py-3">Card Description</th>
+          <th scope="col" class="px-6 py-3">Card Number</th>
+          <th scope="col" class="px-6 py-3">CVC</th>
+          <th scope="col" class="px-6 py-3">Exp MM</th>
+          <th scope="col" class="px-6 py-3">Exp YYYY</th>
+          <th scope="col" class="px-6 py-3">Address</th>
+
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Edit</span>
+          </th>
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Delete</span>
+          </th>
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Set as Default</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-200 hover:bg-gray-300">
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap"
+          >
+            American Express Gold
+            <span class="text-xs text-red-500 dark:text-red-400 ml-1"
+              >Default</span
+            >
+            <!-- Indicator -->
+          </th>
+          <td class="px-6 py-4">1234567890</td>
+          <td class="px-6 py-4">231</td>
+          <td class="px-6 py-4">01</td>
+          <td class="px-6 py-4">2025</td>
+          <td class="px-6 py-4">123 Main Street, San Diego. 92121</td>
+          <td class="px-6 py-4 text-right">
+            <a
+              href="#"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >Edit</a
+            >
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a
+              href="#"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >Delete</a
+            >
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a
+              href="#"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >
+              Set as Default</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <main
+    class="w-full min-h-screen py-1 md:w-2/3 lg:w-3/4 mx-auto flex flex-col justify-center align-middle"
+  >
+    <div class="p-2 md:p-4 flex justify-center">
+      <div class="w-full px-6 pb-8 mt-4 sm:max-w-xl sm:rounded-lg">
+        <!-- Connect with DB for User's name -->
+        <h2 class="pl-6 text-2xl font-bold text-center sm:text-xl">Add Card</h2>
+
+        <div class="mt-4">
+          <label
+            for="Credit Card Number"
+            class="block mb-2 text-sm font-medium text-indigo-900"
+            >Credit Card Number</label
+          >
+          <input
+            type="text"
+            id="cardnumber"
+            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+            placeholder="EX/ 123 456 7890"
+            required
+          />
+        </div>
+
+        <div class="mt-4">
+          <label
+            for="Credit Card Number"
+            class="block mb-2 text-sm font-medium text-indigo-900"
+            >Description for Card</label
+          >
+          <input
+            type="text"
+            id="cardnumber"
+            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+            placeholder="EX/ AMX Card"
+            required
+          />
+        </div>
+
+        <div class="grid max-w-2xl mx-auto">
+          <div
+            class="items-center align-middle justify-center mt-8 text-[#202142]"
+          >
+            <div
+              class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+            >
+              <!-- First Name and Last name get from DB its required input from user -->
+              <div class="w-full">
+                <label
+                  for="first_name"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  id="first_name"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+
+              <div class="w-full">
+                <label
+                  for="last_name"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                >
+                  Last Name</label
+                >
+                <input
+                  type="text"
+                  id="last_name"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+            >
+              <!-- First Name and Last name get from DB its required input from user -->
+              <div class="w-full">
+                <label
+                  for="cvc"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                >
+                  CVC</label
+                >
+                <input
+                  type="text"
+                  id="cvc"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="CVC"
+                  required
+                />
+              </div>
+
+              <div class="w-full">
+                <label
+                  for="ExpirationMonth"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >Exp Month (MM)</label
+                >
+                <input
+                  type="text"
+                  id="ExpirationMonth"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="EX/ 01 (MM)"
+                  required
+                />
+              </div>
+
+              <div class="w-full">
+                <label
+                  for="ExpirationYear"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >Exp Year (YYYY)</label
+                >
+                <input
+                  type="text"
+                  id="ExpirationYear"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="EX/ 1999 (YYYY)"
+                  required
+                />
+              </div>
+            </div>
+
+            <!--  Conditional rendering if checkmark is active, meaning true (same address) if not then render bottom component -->
+            <div>
+              <div>
+                <h1
+                  class="text-2xl underline text-center pb-4 pt-4 text-indigo-900"
+                >
+                  Billing Information
+                </h1>
+                <div
+                  class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                >
+                  <!-- First Name and Last name get from DB its required input from user -->
+                  <div class="w-full">
+                    <label
+                      for="first_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900"
+                      >Street</label
+                    >
+                    <input
+                      type="text"
+                      id="first_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your Address"
+                      value="123 Main Street"
+                      required
+                    />
+                  </div>
+
+                  <div class="w-full">
+                    <label
+                      for="last_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900"
+                    >
+                      Apartment/Suite # (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="last_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your Apartment #"
+                      value="512"
+                    />
+                  </div>
+                </div>
+
+                <div
+                  class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                >
+                  <!-- First Name and Last name get from DB its required input from user -->
+                  <div class="w-full">
+                    <label
+                      for="first_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900"
+                      >Postal Code</label
+                    >
+                    <input
+                      type="text"
+                      id="first_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your Postal Code"
+                      value="12345"
+                      required
+                    />
+                  </div>
+
+                  <div class="w-full">
+                    <label
+                      for="last_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900"
+                    >
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      id="last_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your City"
+                      value="San Diego"
+                      required
+                    />
+                  </div>
+
+                  <div class="w-full">
+                    <label
+                      for="last_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900"
+                    >
+                      Country
+                    </label>
+                    <input
+                      type="text"
+                      id="last_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your Country"
+                      value="United States of America"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Add Logic to save -->
+            <div class="flex flex-col justify-center items-center mx-auto">
+              <button
+                type="submit"
+                class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
