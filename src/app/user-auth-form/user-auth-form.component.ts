@@ -3,11 +3,6 @@ import { LoginPageComponent } from '../login-page/login-page.component';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({

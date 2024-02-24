@@ -8,6 +8,8 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { RestaurantCardComponent } from './catalog/restaurant-card/restaurant-card.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { ForgetPasswordComponent } from './login-page/forget-password/forget-password.component';
+import { ForgetPasswordConfirmationComponent } from './login-page/forget-password-confirmation/forget-password-confirmation.component';
 
 export const routes: Routes = [
   { path: 'signin', component: UserAuthFormComponent },
@@ -16,6 +18,11 @@ export const routes: Routes = [
   { path: 'restaurantCard', component: RestaurantCardComponent },
   { path: 'restaurant', component: RestaurantComponent },
   { path: 'profile', component: ProfilePageComponent },
+  { path: 'forgetpassword', component: ForgetPasswordComponent },
+  {
+    path: 'forgetPasswordConfirmation',
+    component: ForgetPasswordConfirmationComponent,
+  },
   { path: '', component: LandingpageComponent, pathMatch: 'full' },
 
   { path: '**', redirectTo: '/' },
