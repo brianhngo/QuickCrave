@@ -19,7 +19,13 @@ import { supabase } from '../../../supabase.config';
 export class SignUpComponent {
   constructor(public AuthService: AuthService, private router: Router) {}
 
-  user: newUser = { firstName: '', lastName: '', email: '', password: '' };
+  user: newUser = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    password2: '',
+  };
 
   lengthRequirement: boolean = false;
   numberRequirement: boolean = false;
@@ -28,7 +34,18 @@ export class SignUpComponent {
   specialCharacterRequirement: boolean = false;
   errorMessagePassword: boolean = false;
   errorMessageUsername: boolean = false;
+  errorMessagePasswordNotSame: boolean = false;
   passwordMeter: number = 0;
+  showPassword1: boolean = false;
+  showPassword2: boolean = false;
+
+  showPassword1Handler() {
+    this.showPassword1 = !this.showPassword1;
+  }
+
+  showPassword2Handler() {
+    this.showPassword2 = !this.showPassword2;
+  }
 
   checkRequirements(): void {
     // Reset all requirements
@@ -77,7 +94,14 @@ export class SignUpComponent {
     this.specialCharacterRequirement = false;
     this.errorMessagePassword = false;
     this.errorMessageUsername = false;
-    this.user = { firstName: '', lastName: '', email: '', password: '' };
+    this.errorMessagePasswordNotSame = false;
+    this.user = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      password2: '',
+    };
   }
   // Create New User Handler
   async createUserAuthHandler(): Promise<void> {
@@ -96,8 +120,23 @@ export class SignUpComponent {
         this.upperCaseRequirement = false;
         this.specialCharacterRequirement = false;
         this.user.password = '';
+        this.user.password2 = '';
         this.passwordMeter = 0;
         this.errorMessagePassword = true;
+        return;
+      }
+
+      if (this.user.password != this.user.password2) {
+        this.errorMessagePasswordNotSame = true;
+        this.errorMessageUsername = false;
+        this.lengthRequirement = false;
+        this.numberRequirement = false;
+        this.lowerCaseRequirement = false;
+        this.upperCaseRequirement = false;
+        this.specialCharacterRequirement = false;
+        this.user.password = '';
+        this.user.password2 = '';
+        this.passwordMeter = 0;
         return;
       }
 
@@ -110,8 +149,10 @@ export class SignUpComponent {
       if (data && data.email) {
         this.errorMessagePassword = false;
         this.errorMessageUsername = true;
+        this.errorMessagePasswordNotSame = false;
         this.user.email = '';
         this.user.password = '';
+        this.user.password2 = '';
         this.lengthRequirement = false;
         this.numberRequirement = false;
         this.lowerCaseRequirement = false;

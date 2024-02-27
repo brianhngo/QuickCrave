@@ -28,6 +28,12 @@ export class LoginPageComponent {
   };
 
   errorMessage1: boolean = false;
+  showPassword: boolean = false;
+
+  showPasswordHandler = () => {
+    this.showPassword = !this.showPassword;
+    console.log(this.showPassword);
+  };
 
   resetForm(): void {
     this.errorMessage1 = false;

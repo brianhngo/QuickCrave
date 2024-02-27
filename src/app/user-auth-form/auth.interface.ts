@@ -3,6 +3,7 @@ export interface newUser {
   lastName: string;
   email: string;
   password: string;
+  password2: string;
 }
 
 export interface UserAuth {
