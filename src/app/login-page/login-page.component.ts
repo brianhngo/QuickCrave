@@ -27,6 +27,12 @@ export class LoginPageComponent {
     password: '',
   };
 
+  errorMessage1: boolean = false;
+
+  resetForm(): void {
+    this.errorMessage1 = false;
+  }
+
   async handleUserAuth(): Promise<void> {
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -39,8 +45,12 @@ export class LoginPageComponent {
 
       if (userId) {
         this.router.navigate(['/']);
+        this.resetForm();
       }
     } catch (error) {
+      this.user.username = '';
+      this.user.password = '';
+      this.errorMessage1 = true;
       console.log(error);
     }
   }
@@ -52,7 +62,11 @@ export class LoginPageComponent {
 
       // If login is successful, navigate to '/'
       this.router.navigate(['/']);
+      this.resetForm();
     } catch (error) {
+      this.errorMessage1 = true;
+      this.user.username = '';
+      this.user.password = '';
       console.error(error);
     }
   }

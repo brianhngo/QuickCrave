@@ -1,6 +1,11 @@
 <!-- Parent Container -->
 
 <h1 class="text-4xl text-center">Sign in with your QuickCrave account</h1>
+<div *ngIf="errorMessage1">
+  <p class="text-sm text-red-500 text-center">
+    Error! The following combination is incorrect. Please try again
+  </p>
+</div>
 <!-- Email and PW Input  -->
 <form>
   <div class="mb-6">
@@ -14,10 +19,14 @@
       [(ngModel)]="user.username"
       required
       id="email-input"
+      [ngClass]="{
+        'border-red-500': errorMessage1,
+        'border-gray-600': !errorMessage1
+      }"
       name="email"
       type="email"
       placeholder="your@email.com"
-      class="bg-gray-50 border border-gray-300 text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      class="bg-gray-50 border text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
     />
   </div>
   <div class="mb-6">
@@ -31,10 +40,14 @@
       [(ngModel)]="user.password"
       required
       id="password-input"
+      [ngClass]="{
+        'border-red-500': errorMessage1,
+        'border-gray-600': !errorMessage1
+      }"
       name="password"
       type="password"
       placeholder="Enter your password"
-      class="bg-gray-50 border border-gray-300 text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      class="bg-gray-50 border text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
     />
   </div>
   <div class="grid justify-items-end">
