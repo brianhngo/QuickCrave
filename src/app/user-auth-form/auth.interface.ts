@@ -20,3 +20,38 @@ export interface changePassword {
   newPassword1: string;
   newPassword2: string;
 }
+
+export interface userPersonalInformation {
+  firstName: string;
+  lastName: string;
+  personalInfo: {
+    phoneNumber: string;
+    street: string;
+    apartmentNumber: string;
+    postalCode: string;
+    city: string;
+    country: string;
+  };
+}
+
+export interface userBillingInformation {
+  card: {
+    // per card. As a user can have many cards saved in the App
+    info: {
+      Number: string;
+      Description: string;
+      FirstName: string;
+      LastName: string;
+      cvc: string;
+      ExpMonth: string;
+      ExpYear: string;
+    };
+    billing: {
+      street: string;
+      apartmentNumber: string;
+      postalCode: string;
+      city: string;
+      country: string;
+    };
+  };
+}

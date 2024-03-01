@@ -239,12 +239,12 @@
         (input)="checkRequirements()"
         name="password2"
         required
-        [type]="showPassword1 === true ? 'text' : 'password'"
+        [type]="showPassword2 === true ? 'text' : 'password'"
         id="password-input"
         placeholder="Reenter your password"
         class="bg-gray-50 border text-black-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
       />
-      <ng-container *ngIf="!showPassword2; else elseBlock">
+      <ng-container *ngIf="!showPassword2; else elseBlock2">
         <svg
           class="hover:shadow-md cursor-pointer absolute top-1/2 transform -translate-y-1/2 right-3"
           (click)="showPassword2Handler()"
@@ -258,7 +258,7 @@
           />
         </svg>
       </ng-container>
-      <ng-template #elseBlock>
+      <ng-template #elseBlock2>
         <svg
           class="hover:shadow-md cursor-pointer absolute top-1/2 transform -translate-y-1/2 right-3"
           (click)="showPassword2Handler()"

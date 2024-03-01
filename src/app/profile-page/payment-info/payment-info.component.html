@@ -72,10 +72,62 @@
             >
           </td>
         </tr>
+        <tr
+          class="bg-gray-200 hover:bg-gray-300"
+          *ngFor="let item of userBillingInfoList"
+        >
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap"
+          >
+            {{ item.card.info.Description }}
+            <span class="text-xs text-red-500 dark:text-red-400 ml-1"
+              >Default</span
+            >
+            <!-- Indicator -->
+          </th>
+          <td class="px-6 py-4">{{ item.card.info.Number }}</td>
+          <td class="px-6 py-4">{{ item.card.info.cvc }}</td>
+          <td class="px-6 py-4">{{ item.card.info.ExpMonth }}</td>
+          <td class="px-6 py-4">{{ item.card.info.ExpYear }}</td>
+          <td class="px-6 py-4">
+            {{ item.card.billing.street }}
+            {{
+              item.card.billing.apartmentNumber.length < 1
+                ? null
+                : item.card.billing.apartmentNumber
+            }}
+            {{ item.card.billing.postalCode }} {{ item.card.billing.city }}
+            {{ item.card.billing.country }}
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a
+              href="#"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >Edit</a
+            >
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a
+              href="#"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >Delete</a
+            >
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a
+              href="#"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >
+              Set as Default</a
+            >
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 
+  <!-- Adding Card Form  -->
   <main
     class="w-full py-1 md:w-2/3 lg:w-3/4 mx-auto flex flex-col justify-center align-middle"
   >
@@ -91,6 +143,7 @@
             >Credit Card Number</label
           >
           <input
+            [(ngModel)]="userBillingInfo.card.info.Number"
             type="text"
             id="cardnumber"
             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
@@ -101,13 +154,14 @@
 
         <div class="mt-4">
           <label
-            for="Credit Card Number"
+            for="cardDescription"
             class="block mb-2 text-sm font-medium text-indigo-900"
             >Description for Card</label
           >
           <input
+            [(ngModel)]="userBillingInfo.card.info.Description"
             type="text"
-            id="cardnumber"
+            id="cardDescription"
             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
             placeholder="EX/ AMX Card"
             required
@@ -129,6 +183,7 @@
                   >First Name</label
                 >
                 <input
+                  [(ngModel)]="userBillingInfo.card.info.FirstName"
                   type="text"
                   id="first_name"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
@@ -145,6 +200,7 @@
                   Last Name</label
                 >
                 <input
+                  [(ngModel)]="userBillingInfo.card.info.LastName"
                   type="text"
                   id="last_name"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
@@ -165,6 +221,7 @@
                   CVC</label
                 >
                 <input
+                  [(ngModel)]="userBillingInfo.card.info.cvc"
                   type="text"
                   id="cvc"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
@@ -180,6 +237,7 @@
                   >Exp Month (MM)</label
                 >
                 <input
+                  [(ngModel)]="userBillingInfo.card.info.ExpMonth"
                   type="text"
                   id="ExpirationMonth"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
@@ -195,6 +253,7 @@
                   >Exp Year (YYYY)</label
                 >
                 <input
+                  [(ngModel)]="userBillingInfo.card.info.ExpYear"
                   type="text"
                   id="ExpirationYear"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
@@ -218,33 +277,33 @@
                   <!-- First Name and Last name get from DB its required input from user -->
                   <div class="w-full">
                     <label
-                      for="first_name"
+                      for="billingStreet"
                       class="block mb-2 text-sm font-medium text-indigo-900"
                       >Street</label
                     >
                     <input
+                      [(ngModel)]="userBillingInfo.card.billing.street"
                       type="text"
-                      id="first_name"
+                      id="billingStreet"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                       placeholder="Your Address"
-                      value="123 Main Street"
                       required
                     />
                   </div>
 
                   <div class="w-full">
                     <label
-                      for="last_name"
+                      for="billingApartmentNumber"
                       class="block mb-2 text-sm font-medium text-indigo-900"
                     >
                       Apartment/Suite # (Optional)
                     </label>
                     <input
+                      [(ngModel)]="userBillingInfo.card.billing.apartmentNumber"
                       type="text"
-                      id="last_name"
+                      id="billingApartmentNumber"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                       placeholder="Your Apartment #"
-                      value="512"
                     />
                   </div>
                 </div>
@@ -255,50 +314,50 @@
                   <!-- First Name and Last name get from DB its required input from user -->
                   <div class="w-full">
                     <label
-                      for="first_name"
+                      for="billing_postal"
                       class="block mb-2 text-sm font-medium text-indigo-900"
                       >Postal Code</label
                     >
                     <input
+                      [(ngModel)]="userBillingInfo.card.billing.postalCode"
                       type="text"
-                      id="first_name"
+                      id="billing_postal"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                       placeholder="Your Postal Code"
-                      value="12345"
                       required
                     />
                   </div>
 
                   <div class="w-full">
                     <label
-                      for="last_name"
+                      for="billing_city"
                       class="block mb-2 text-sm font-medium text-indigo-900"
                     >
                       City
                     </label>
                     <input
+                      [(ngModel)]="userBillingInfo.card.billing.city"
                       type="text"
-                      id="last_name"
+                      id="billing_city"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                       placeholder="Your City"
-                      value="San Diego"
                       required
                     />
                   </div>
 
                   <div class="w-full">
                     <label
-                      for="last_name"
+                      for="billing_country"
                       class="block mb-2 text-sm font-medium text-indigo-900"
                     >
                       Country
                     </label>
                     <input
+                      [(ngModel)]="userBillingInfo.card.billing.country"
                       type="text"
-                      id="last_name"
+                      id="billing_country"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                       placeholder="Your Country"
-                      value="United States of America"
                       required
                     />
                   </div>
@@ -308,6 +367,7 @@
             <!-- Add Logic to save -->
             <div class="flex flex-col justify-center items-center mx-auto">
               <button
+                (click)="addCardDate()"
                 type="submit"
                 class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
               >
