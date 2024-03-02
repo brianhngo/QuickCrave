@@ -1,0 +1,286 @@
+<div
+  class="fixed inset-0 z-10 overflow-auto bg-black bg-opacity-50 modal"
+  x-show="isOpen"
+  [class.open]="isOpen"
+>
+  <div class="flex justify-center items-center h-full">
+    <div class="modal-dialog max-w-lg bg-white rounded-lg shadow-lg">
+      <div class="modal-content p-4 overflow-y h-[600px]">
+        <div
+          class="modal-header border-b border-gray-300 flex justify-end items-center pb-2"
+        >
+          <button
+            type="button"
+            class="close text-gray-500 cursor-pointer hover:border hover:rounded-full hover:bg-slate-400 hover:shadow-lg"
+            (click)="closeModal()"
+          >
+            &times;
+          </button>
+        </div>
+        <!-- Adding Card Form  -->
+        <main
+          class="w-full py-1 md:w-2/3 lg:w-3/4 mx-auto flex flex-col justify-center align-middle"
+        >
+          <div class="p-2 md:p-4 flex justify-center">
+            <div class="w-full px-6 pb-8 mt-4 sm:max-w-xl sm:rounded-lg">
+              <!-- Connect with DB for User's name -->
+              <h2 class="pl-6 text-2xl font-bold text-center sm:text-xl">
+                Add Card
+              </h2>
+
+              <div class="mt-4">
+                <label
+                  for="Credit Card Number"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >Credit Card Number</label
+                >
+                <input
+                  [(ngModel)]="userBillingInfo.card.info.Number"
+                  type="text"
+                  id="cardnumber"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="EX/ 123 456 7890"
+                  required
+                />
+              </div>
+
+              <div class="mt-4">
+                <label
+                  for="cardDescription"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >Description for Card</label
+                >
+                <input
+                  [(ngModel)]="userBillingInfo.card.info.Description"
+                  type="text"
+                  id="cardDescription"
+                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="EX/ AMX Card"
+                  required
+                />
+              </div>
+
+              <div class="grid max-w-2xl mx-auto">
+                <div
+                  class="items-center align-middle justify-center mt-8 text-[#202142]"
+                >
+                  <div
+                    class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                  >
+                    <!-- First Name and Last name get from DB its required input from user -->
+                    <div class="w-full">
+                      <label
+                        for="first_name"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                        >First Name</label
+                      >
+                      <input
+                        [(ngModel)]="userBillingInfo.card.info.FirstName"
+                        type="text"
+                        id="first_name"
+                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        placeholder="First Name"
+                        required
+                      />
+                    </div>
+
+                    <div class="w-full">
+                      <label
+                        for="last_name"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                      >
+                        Last Name</label
+                      >
+                      <input
+                        [(ngModel)]="userBillingInfo.card.info.LastName"
+                        type="text"
+                        id="last_name"
+                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        placeholder="Last Name"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                  >
+                    <!-- First Name and Last name get from DB its required input from user -->
+                    <div class="w-full">
+                      <label
+                        for="cvc"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                      >
+                        CVC</label
+                      >
+                      <input
+                        [(ngModel)]="userBillingInfo.card.info.cvc"
+                        type="text"
+                        id="cvc"
+                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        placeholder="CVC"
+                        required
+                      />
+                    </div>
+
+                    <div class="w-full">
+                      <label
+                        for="ExpirationMonth"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                        >Exp Month (MM)</label
+                      >
+                      <input
+                        [(ngModel)]="userBillingInfo.card.info.ExpMonth"
+                        type="text"
+                        id="ExpirationMonth"
+                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        placeholder="EX/ 01 (MM)"
+                        required
+                      />
+                    </div>
+
+                    <div class="w-full">
+                      <label
+                        for="ExpirationYear"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                        >Exp Year (YYYY)</label
+                      >
+                      <input
+                        [(ngModel)]="userBillingInfo.card.info.ExpYear"
+                        type="text"
+                        id="ExpirationYear"
+                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        placeholder="EX/ 1999 (YYYY)"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!--  Conditional rendering if checkmark is active, meaning true (same address) if not then render bottom component -->
+                  <div>
+                    <div>
+                      <h1
+                        class="text-2xl underline text-center pb-4 pt-4 text-indigo-900"
+                      >
+                        Billing Information
+                      </h1>
+                      <div
+                        class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                      >
+                        <!-- First Name and Last name get from DB its required input from user -->
+                        <div class="w-full">
+                          <label
+                            for="billingStreet"
+                            class="block mb-2 text-sm font-medium text-indigo-900"
+                            >Street</label
+                          >
+                          <input
+                            [(ngModel)]="userBillingInfo.card.billing.street"
+                            type="text"
+                            id="billingStreet"
+                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            placeholder="Your Address"
+                            required
+                          />
+                        </div>
+
+                        <div class="w-full">
+                          <label
+                            for="billingApartmentNumber"
+                            class="block mb-2 text-sm font-medium text-indigo-900"
+                          >
+                            Apartment/Suite # (Optional)
+                          </label>
+                          <input
+                            [(ngModel)]="
+                              userBillingInfo.card.billing.apartmentNumber
+                            "
+                            type="text"
+                            id="billingApartmentNumber"
+                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            placeholder="Your Apartment #"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                      >
+                        <!-- First Name and Last name get from DB its required input from user -->
+                        <div class="w-full">
+                          <label
+                            for="billing_postal"
+                            class="block mb-2 text-sm font-medium text-indigo-900"
+                            >Postal Code</label
+                          >
+                          <input
+                            [(ngModel)]="
+                              userBillingInfo.card.billing.postalCode
+                            "
+                            type="text"
+                            id="billing_postal"
+                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            placeholder="Your Postal Code"
+                            required
+                          />
+                        </div>
+
+                        <div class="w-full">
+                          <label
+                            for="billing_city"
+                            class="block mb-2 text-sm font-medium text-indigo-900"
+                          >
+                            City
+                          </label>
+                          <input
+                            [(ngModel)]="userBillingInfo.card.billing.city"
+                            type="text"
+                            id="billing_city"
+                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            placeholder="Your City"
+                            required
+                          />
+                        </div>
+
+                        <div class="w-full">
+                          <label
+                            for="billing_country"
+                            class="block mb-2 text-sm font-medium text-indigo-900"
+                          >
+                            Country
+                          </label>
+                          <input
+                            [(ngModel)]="userBillingInfo.card.billing.country"
+                            type="text"
+                            id="billing_country"
+                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            placeholder="Your Country"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add Logic to save -->
+                  <div
+                    class="flex flex-col justify-center items-center mx-auto"
+                  >
+                    <button
+                      (click)="addCardDate()"
+                      type="submit"
+                      class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <div class="modal-body mt-2">
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
