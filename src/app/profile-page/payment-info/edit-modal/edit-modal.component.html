@@ -1,7 +1,7 @@
 <div
   class="fixed inset-0 z-10 overflow-auto bg-black bg-opacity-50 modal"
   x-show="isOpen"
-  [class.open]="isOpen"
+  [class.open]="isEditOpen"
 >
   <div class="flex justify-center items-center h-full">
     <div class="modal-dialog max-w-lg bg-white rounded-lg shadow-lg">
@@ -10,7 +10,7 @@
           <button
             type="button"
             class="close text-gray-500 cursor-pointer hover:border hover:rounded-full hover:bg-slate-400 hover:shadow-lg"
-            (click)="closeModal()"
+            (click)="closeEditModal()"
           >
             &times;
           </button>
@@ -23,7 +23,7 @@
             <div class="w-full px-6 pb-8 mt-4 sm:max-w-xl sm:rounded-lg">
               <!-- Connect with DB for User's name -->
               <h2 class="pl-6 text-2xl font-bold text-center sm:text-xl">
-                Add Card
+                Edit Credit Card Information
               </h2>
 
               <div class="mt-4">
@@ -33,6 +33,7 @@
                   >Credit Card Number</label
                 >
                 <input
+                  (change)="onFormFieldChange()"
                   [(ngModel)]="userBillingInfo.info.Number"
                   type="text"
                   id="cardnumber"
@@ -49,6 +50,7 @@
                   >Description for Card</label
                 >
                 <input
+                  (change)="onFormFieldChange()"
                   [(ngModel)]="userBillingInfo.info.Description"
                   type="text"
                   id="cardDescription"
@@ -73,6 +75,7 @@
                         >First Name</label
                       >
                       <input
+                        (change)="onFormFieldChange()"
                         [(ngModel)]="userBillingInfo.info.FirstName"
                         type="text"
                         id="first_name"
@@ -90,6 +93,7 @@
                         Last Name</label
                       >
                       <input
+                        (change)="onFormFieldChange()"
                         [(ngModel)]="userBillingInfo.info.LastName"
                         type="text"
                         id="last_name"
@@ -111,6 +115,7 @@
                         CVC</label
                       >
                       <input
+                        (change)="onFormFieldChange()"
                         [(ngModel)]="userBillingInfo.info.cvc"
                         type="text"
                         id="cvc"
@@ -127,6 +132,7 @@
                         >Exp Month (MM)</label
                       >
                       <input
+                        (change)="onFormFieldChange()"
                         [(ngModel)]="userBillingInfo.info.ExpMonth"
                         type="text"
                         id="ExpirationMonth"
@@ -143,6 +149,7 @@
                         >Exp Year (YYYY)</label
                       >
                       <input
+                        (change)="onFormFieldChange()"
                         [(ngModel)]="userBillingInfo.info.ExpYear"
                         type="text"
                         id="ExpirationYear"
@@ -172,6 +179,7 @@
                             >Street</label
                           >
                           <input
+                            (change)="onFormFieldChange()"
                             [(ngModel)]="userBillingInfo.billing.street"
                             type="text"
                             id="billingStreet"
@@ -189,6 +197,7 @@
                             Apartment # (Optional)
                           </label>
                           <input
+                            (change)="onFormFieldChange()"
                             [(ngModel)]="
                               userBillingInfo.billing.apartmentNumber
                             "
@@ -211,6 +220,7 @@
                             >Postal Code</label
                           >
                           <input
+                            (change)="onFormFieldChange()"
                             [(ngModel)]="userBillingInfo.billing.postalCode"
                             type="text"
                             id="billing_postal"
@@ -228,6 +238,7 @@
                             City
                           </label>
                           <input
+                            (change)="onFormFieldChange()"
                             [(ngModel)]="userBillingInfo.billing.city"
                             type="text"
                             id="billing_city"
@@ -245,6 +256,7 @@
                             Country
                           </label>
                           <input
+                            (change)="onFormFieldChange()"
                             [(ngModel)]="userBillingInfo.billing.country"
                             type="text"
                             id="billing_country"
@@ -254,28 +266,29 @@
                           />
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div
-                    class="flex flex-col justify-center align-middle items-center pt-4 pb-4"
-                  >
-                    <div
-                      class="flex items-center gap-1 justify-center text-center"
-                    >
-                      <input
-                        checked
-                        id="checked-checkbox"
-                        [(ngModel)]="isDefaultStatus"
-                        type="checkbox"
-                        (click)="defaultHandler()"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label
-                        for="checked-checkbox"
-                        class="text-sm font-medium text-gray-900"
+                      <div
+                        class="flex flex-col justify-center align-middle items-center pt-4 pb-4"
                       >
-                        Set as Default
-                      </label>
+                        <div
+                          class="flex items-center gap-1 justify-center text-center"
+                        >
+                          <input
+                            (change)="onFormFieldChange()"
+                            checked
+                            id="checked-checkbox"
+                            [(ngModel)]="isDefaultStatus"
+                            type="checkbox"
+                            (click)="defaultHandler()"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                          />
+                          <label
+                            for="checked-checkbox"
+                            class="text-sm font-medium text-gray-900"
+                          >
+                            Set as Default
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <!-- Add Logic to save -->
@@ -283,7 +296,7 @@
                     class="flex flex-col justify-center items-center mx-auto"
                   >
                     <button
-                      (click)="addCardDate()"
+                      (click)="editCardDate()"
                       type="submit"
                       class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
                     >

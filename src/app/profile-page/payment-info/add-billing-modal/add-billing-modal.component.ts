@@ -21,9 +21,38 @@ export class AddBillingModalComponent {
     this.closed.emit();
   }
 
+  isDefaultStatus: boolean = false;
+
+  defaultHandler() {
+    this.isDefaultStatus = !this.isDefaultStatus;
+  }
+
   userBillingInfo: userBillingInformation = {
-    card: {
-      // per card. As a user can have many cards saved in the App
+    id: '',
+    // per card. As a user can have many cards saved in the App
+    info: {
+      Number: '',
+      Description: '',
+      FirstName: '',
+      LastName: '',
+      cvc: '',
+      ExpMonth: '',
+      ExpYear: '',
+    },
+    billing: {
+      street: '',
+      apartmentNumber: '',
+      postalCode: '',
+      city: '',
+      country: '',
+    },
+    isDefault: false,
+  };
+
+  //reset the forms back to original state
+  resetForum() {
+    this.userBillingInfo = {
+      id: '',
       info: {
         Number: '',
         Description: '',
@@ -40,41 +69,55 @@ export class AddBillingModalComponent {
         city: '',
         country: '',
       },
-    },
-  };
+      isDefault: false,
+    };
+    this.isDefaultStatus = false;
+  }
 
   async addCardDate() {
     try {
-      let { data, error } = await supabase
-        .from('users')
-        .select('billingInfo')
-        .eq('firebaseId', auth.currentUser?.uid);
-
-      if (error) {
-        throw error;
-      }
-
-      if (data && data.length > 0) {
-        const userData = data[0]; // Access the first (and presumably only) row
-        if (userData.billingInfo === null) {
-          // If billingInfo is null, initialize it with an array containing userBillingInfo
-          userData.billingInfo = [this.userBillingInfo];
-        } else {
-          // Otherwise, push userBillingInfo into the existing billingInfo array
-          userData.billingInfo.push(this.userBillingInfo);
-        }
-
-        // Update the billingInfo field of the specific row with the modified data
+      // Update the billingInfo field of the specific row with the modified data
+      if (!this.isDefaultStatus) {
+        // new set as default
         await supabase
-          .from('users')
-          .update({ billingInfo: userData.billingInfo })
+          .from('billing')
+          .insert({
+            firebaseId: auth.currentUser?.uid,
+            billingInfo: this.userBillingInfo.billing,
+            creditInfo: this.userBillingInfo.info,
+            isDefault: this.isDefaultStatus,
+          })
           .eq('firebaseId', auth.currentUser?.uid)
           .then(() => {
             this.getUserBillingList();
+            this.resetForum();
             this.closeModal();
           });
       } else {
-        console.log('No user data found');
+        // is not set as default, but card is added
+
+        await supabase
+          .from('billing')
+          .update({
+            isDefault: false,
+          })
+          .eq('firebaseId', auth.currentUser?.uid)
+          .eq('isDefault', true);
+
+        await supabase
+          .from('billing')
+          .insert({
+            firebaseId: auth.currentUser?.uid,
+            billingInfo: this.userBillingInfo.billing,
+            creditInfo: this.userBillingInfo.info,
+            isDefault: this.isDefaultStatus,
+          })
+          .eq('firebaseId', auth.currentUser?.uid)
+          .then(() => {
+            this.getUserBillingList();
+            this.resetForum();
+            this.closeModal();
+          });
       }
     } catch (error) {
       console.error(error);

@@ -35,23 +35,22 @@ export interface userPersonalInformation {
 }
 
 export interface userBillingInformation {
-  card: {
-    // per card. As a user can have many cards saved in the App
-    info: {
-      Number: string;
-      Description: string;
-      FirstName: string;
-      LastName: string;
-      cvc: string;
-      ExpMonth: string;
-      ExpYear: string;
-    };
-    billing: {
-      street: string;
-      apartmentNumber: string;
-      postalCode: string;
-      city: string;
-      country: string;
-    };
+  id: string;
+  info: {
+    Number: string;
+    Description: string;
+    FirstName: string;
+    LastName: string;
+    cvc: string;
+    ExpMonth: string;
+    ExpYear: string;
   };
+  billing: {
+    street: string;
+    apartmentNumber: string;
+    postalCode: string;
+    city: string;
+    country: string;
+  };
+  isDefault: boolean;
 }

@@ -11,7 +11,7 @@
     </button>
   </div>
   <div class="overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right bg-indigo-800">
+    <table class="w-full text-sm text-left rtl:text-right">
       <thead class="text-xs uppercase bg-slate-700 text-gray-200">
         <tr>
           <th scope="col" class="px-6 py-3">Card Description</th>
@@ -20,7 +20,6 @@
           <th scope="col" class="px-6 py-3">Exp MM</th>
           <th scope="col" class="px-6 py-3">Exp YYYY</th>
           <th scope="col" class="px-6 py-3">Address</th>
-
           <th scope="col" class="px-6 py-3">
             <span class="sr-only">Edit</span>
           </th>
@@ -33,75 +32,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="bg-gray-200 hover:bg-gray-300">
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap"
-          >
-            American Express Gold
-            <span class="text-xs text-red-500 dark:text-red-400 ml-1"
-              >Default</span
-            >
-            <!-- Indicator -->
-          </th>
-          <td class="px-6 py-4">1234567890</td>
-          <td class="px-6 py-4">231</td>
-          <td class="px-6 py-4">01</td>
-          <td class="px-6 py-4">2025</td>
-          <td class="px-6 py-4">123 Main Street, San Diego. 92121</td>
-          <td class="px-6 py-4 text-right">
-            <a
-              href="#"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
-            >
-          </td>
-          <td class="px-6 py-4 text-right">
-            <a
-              href="#"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Delete</a
-            >
-          </td>
-          <td class="px-6 py-4 text-right">
-            <a
-              href="#"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            >
-              Set as Default</a
-            >
-          </td>
-        </tr>
         <tr
           class="bg-gray-200 hover:bg-gray-300"
           *ngFor="let item of userBillingInfoList"
         >
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap"
-          >
-            {{ item.card.info.Description }}
-            <span class="text-xs text-red-500 dark:text-red-400 ml-1"
-              >Default</span
-            >
-            <!-- Indicator -->
-          </th>
-          <td class="px-6 py-4">{{ item.card.info.Number }}</td>
-          <td class="px-6 py-4">{{ item.card.info.cvc }}</td>
-          <td class="px-6 py-4">{{ item.card.info.ExpMonth }}</td>
-          <td class="px-6 py-4">{{ item.card.info.ExpYear }}</td>
+          <td class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">
+            {{ item.info.Description }}
+          </td>
+          <td class="px-6 py-4">{{ item.info.Number }}</td>
+          <td class="px-6 py-4">{{ item.info.cvc }}</td>
+          <td class="px-6 py-4">{{ item.info.ExpMonth }}</td>
+          <td class="px-6 py-4">{{ item.info.ExpYear }}</td>
           <td class="px-6 py-4">
-            {{ item.card.billing.street }}
+            {{ item.billing.street }}
             {{
-              item.card.billing.apartmentNumber.length < 1
-                ? null
-                : item.card.billing.apartmentNumber
+              item.billing.apartmentNumber
+                ? ", " + item.billing.apartmentNumber
+                : ""
             }}
-            {{ item.card.billing.postalCode }} {{ item.card.billing.city }}
-            {{ item.card.billing.country }}
+            {{ item.billing.postalCode }} {{ item.billing.city }}
+            {{ item.billing.country }}
           </td>
           <td class="px-6 py-4 text-right">
             <a
+              (click)="openEditModal(); setSelectedEditId(item.id)"
               href="#"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Edit</a
@@ -109,6 +63,7 @@
           </td>
           <td class="px-6 py-4 text-right">
             <a
+              (click)="openDeleteModal(); setSelectedDeleteId(item.id)"
               href="#"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Delete</a
@@ -116,21 +71,37 @@
           </td>
           <td class="px-6 py-4 text-right">
             <a
+              (click)="openSetDefaultModal(); setDefaultModalId(item.id)"
               href="#"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            >
-              Set as Default</a
+              >Set as Default</a
             >
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-
   <app-add-billing-modal
     [isOpen]="isModalOpen"
     [getUserBillingList]="getUserBillingList"
     (closed)="onModalClosed()"
-  >
-  </app-add-billing-modal>
+  ></app-add-billing-modal>
+  <app-edit-modal
+    [editId]="editId"
+    [getUserBillingList]="getUserBillingList"
+    [isEditOpen]="isEditModal"
+    (closed)="onEditModalClosed()"
+  ></app-edit-modal>
+  <app-delete-billing-modal
+    [deleteId]="isDeleteId"
+    [getUserBillingList]="getUserBillingList"
+    [isDeleteModal]="isDeleteModal"
+    (closed)="onDeleteModalClosed()"
+  ></app-delete-billing-modal>
+  <app-set-as-default-modal
+    [SetDefaultId]="SetDefaultId"
+    [getUserBillingList]="getUserBillingList"
+    [isSetDefaultModal]="isSetDefaultModal"
+    (closed)="setDefaultModalClosed()"
+  ></app-set-as-default-modal>
 </div>

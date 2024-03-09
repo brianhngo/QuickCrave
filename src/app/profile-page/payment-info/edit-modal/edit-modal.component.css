@@ -24,9 +24,9 @@
 }
 
 .modal-content {
-  padding: 5px;
+  padding: 20px;
   overflow-y: auto;
-  /* height: 600px; */
+  height: 600px;
 }
 
 .modal-header {
