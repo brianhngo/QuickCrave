@@ -35,7 +35,7 @@ export class DriverProfileComponent implements OnInit {
         .eq('firebaseId', auth.currentUser?.uid);
       if (data) {
         this.userCarList = data.map((item) => ({
-          id: item.id,
+          id: item.carId,
           carInfo: {
             state: item.carInfo.state,
             carType: item.carInfo.carType,
@@ -67,6 +67,7 @@ export class DriverProfileComponent implements OnInit {
   editId: string = '';
 
   setSelectedEditId(cardId: string) {
+    console.log(this.editId);
     this.editId = cardId;
   }
 
@@ -80,6 +81,39 @@ export class DriverProfileComponent implements OnInit {
     this.isEditCarModal = false;
   }
 
+  // Delete Modal
+
+  deleteId: string = '';
+  isDeleteCarModal: boolean = false;
+
+  setDeleteId(cardId: string) {
+    this.deleteId = cardId;
+  }
+
+  openDeleteCarModal() {
+    this.isDeleteCarModal = true;
+  }
+
+  closeDeleteCarModal() {
+    this.isDeleteCarModal = false;
+  }
+
+  // Set as Default Modal
+
+  defaultId: string = '';
+  isDefaultCarModal: boolean = false;
+
+  setDefaultId(cardId: string) {
+    this.defaultId = cardId;
+  }
+
+  openDefaultCarModal() {
+    this.isDefaultCarModal = true;
+  }
+
+  closeDefaultCarModal() {
+    this.isDefaultCarModal = false;
+  }
   ngOnInit(): void {
     try {
       this.getCarList();

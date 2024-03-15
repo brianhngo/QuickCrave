@@ -67,12 +67,14 @@
           </td>
           <td class="px-6 py-4 text-right">
             <a
+              (click)="setDeleteId(car.id); openDeleteCarModal()"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Delete</a
             >
           </td>
           <td class="px-6 py-4 text-right">
             <a
+              (click)="setDefaultId(car.id); openDefaultCarModal()"
               *ngIf="!car.isDefault"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Set as Default?</a
@@ -95,5 +97,18 @@
   [getCarList]="getCarList"
   [isEditCarModal]="isEditCarModal"
   (closed)="closeEditCarModal()"
->
-</app-edit-car-modal>
+></app-edit-car-modal>
+
+<app-delete-car-modal
+  [deleteId]="deleteId"
+  [getCarList]="getCarList"
+  [isDeleteCarModal]="isDeleteCarModal"
+  (closed)="closeDeleteCarModal()"
+></app-delete-car-modal>
+
+<app-set-car-as-default-modal
+  [defaultId]="defaultId"
+  [getCarList]="getCarList"
+  [isDefaultCarModal]="isDefaultCarModal"
+  (closed)="closeDefaultCarModal()"
+></app-set-car-as-default-modal>

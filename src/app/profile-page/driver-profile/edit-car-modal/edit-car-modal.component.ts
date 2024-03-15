@@ -322,20 +322,24 @@ export class EditCarModalComponent implements OnChanges {
         }
       }
 
-      const { error } = await supabase.from('driver').insert({
-        // new isDefault
-        carInfo: {
-          state: this.userSelectedInput.carInfo.state,
-          carType: this.userSelectedInput.carInfo.carType,
-          licensePlate: this.userSelectedInput.carInfo.licensePlate,
-          carBrand: this.userSelectedInput.carInfo.carBrand,
-          carModel: this.userSelectedInput.carInfo.carModel,
-          carColor: this.userSelectedInput.carInfo.carColor,
-          carYear: this.userSelectedInput.carInfo.carYear,
-        },
-        isDefault: this.userSelectedInput.isDefault,
-        firebaseId: auth.currentUser?.uid,
-      });
+      const { error } = await supabase
+        .from('driver')
+        .update({
+          // new isDefault
+          carInfo: {
+            state: this.userSelectedInput.carInfo.state,
+            carType: this.userSelectedInput.carInfo.carType,
+            licensePlate: this.userSelectedInput.carInfo.licensePlate,
+            carBrand: this.userSelectedInput.carInfo.carBrand,
+            carModel: this.userSelectedInput.carInfo.carModel,
+            carColor: this.userSelectedInput.carInfo.carColor,
+            carYear: this.userSelectedInput.carInfo.carYear,
+          },
+          isDefault: this.userSelectedInput.isDefault,
+          firebaseId: auth.currentUser?.uid,
+        })
+        .eq('firebaseId', auth.currentUser?.uid)
+        .eq('carId', this.editId);
 
       if (error) {
         console.log(error);

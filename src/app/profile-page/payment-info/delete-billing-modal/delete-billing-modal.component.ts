@@ -29,7 +29,6 @@ export class DeleteBillingModalComponent {
   }
 
   deleteCreditCard = async () => {
-    console.log(this.deleteId);
     try {
       await supabase
         .from('billing')
