@@ -16,7 +16,109 @@ export class AddBillingModalComponent {
   @Input() getUserBillingList!: () => void;
   @Output() closed = new EventEmitter<void>();
 
+  errorCardNumber: boolean = false;
+  errorCardDescription: boolean = false;
+  errorCardFirstName: boolean = false;
+  errorCardLastName: boolean = false;
+  errorCardCVC: boolean = false;
+  errorCardExpMonth: boolean = false;
+  errorCardExpYear: boolean = false;
+  errorCardStreet: boolean = false;
+  errorCardPostal: boolean = false;
+  errorCardCity: boolean = false;
+  errorCardCountry: boolean = false;
+
+  resetErrorMessage() {
+    this.errorCardNumber = false;
+    this.errorCardDescription = false;
+    this.errorCardFirstName = false;
+    this.errorCardLastName = false;
+    this.errorCardCVC = false;
+    this.errorCardExpMonth = false;
+    this.errorCardExpYear = false;
+    this.errorCardStreet = false;
+    this.errorCardPostal = false;
+    this.errorCardCity = false;
+    this.errorCardCountry = false;
+  }
+
+  checkRequirement2(): boolean {
+    if (
+      this.userBillingInfo.info.Number.length < 12 ||
+      this.userBillingInfo.info.Number.length > 19
+    ) {
+      this.resetErrorMessage();
+      this.errorCardNumber = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.Description.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardDescription = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.FirstName.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardFirstName = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.LastName.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardLastName = true;
+      return false;
+    }
+
+    if (
+      this.userBillingInfo.info.cvc.length < 3 ||
+      this.userBillingInfo.info.cvc.length > 3
+    ) {
+      this.resetErrorMessage();
+      this.errorCardCVC = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.ExpMonth.length !== 2) {
+      this.resetErrorMessage();
+      this.errorCardExpMonth = true;
+      return false;
+    }
+    if (this.userBillingInfo.info.ExpYear.length !== 4) {
+      this.resetErrorMessage();
+      this.errorCardExpYear = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.street.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardStreet = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.postalCode.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardPostal = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.city.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardCity = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.country.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardCountry = true;
+      return false;
+    }
+    return true;
+  }
+
   closeModal() {
+    this.resetForum();
+
     this.isOpen = false;
     this.closed.emit();
   }
@@ -76,6 +178,10 @@ export class AddBillingModalComponent {
 
   async addCardDate() {
     try {
+      if (!this.checkRequirement2()) {
+        this.resetForum();
+        return;
+      }
       // Update the billingInfo field of the specific row with the modified data
       if (!this.isDefaultStatus) {
         // new set as default

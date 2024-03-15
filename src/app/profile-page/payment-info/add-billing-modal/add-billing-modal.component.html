@@ -25,6 +25,76 @@
               <h2 class="pl-6 text-2xl font-bold text-center sm:text-xl">
                 Add Card
               </h2>
+              <div *ngIf="errorCardNumber">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that credit card number has the correct number
+                  of characters."
+                </p>
+              </div>
+              <div *ngIf="errorCardDescription">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that description field is filled"
+                </p>
+              </div>
+              <div *ngIf="errorCardFirstName">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that First Namefield is filled"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardLastName">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Last Name field is filled"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardCVC">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that CVC field is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardExpMonth">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Exp Month field is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardExpYear">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Exp Year is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardExpYear">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Exp Year is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardStreet">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Street is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardPostal">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Postal is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardCity">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Card is filled correctly"
+                </p>
+              </div>
+
+              <div *ngIf="errorCardCountry">
+                <p class="text-sm text-red-500 text-center">
+                  "Error! Ensure that Country is filled correctly"
+                </p>
+              </div>
 
               <div class="mt-4">
                 <label
@@ -34,9 +104,16 @@
                 >
                 <input
                   [(ngModel)]="userBillingInfo.info.Number"
+                  [ngClass]="{
+                    'border-red-500': errorCardNumber,
+                    'border-indigo-300': !errorCardNumber
+                  }"
+                  minlength="12"
+                  maxlength="19"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                   type="text"
                   id="cardnumber"
-                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                   placeholder="EX/ 123 456 7890"
                   required
                 />
@@ -49,10 +126,14 @@
                   >Description for Card</label
                 >
                 <input
+                  [ngClass]="{
+                    'border-red-500': errorCardDescription,
+                    'border-indigo-300': !errorCardDescription
+                  }"
                   [(ngModel)]="userBillingInfo.info.Description"
                   type="text"
                   id="cardDescription"
-                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                   placeholder="EX/ AMX Card"
                   required
                 />
@@ -73,10 +154,14 @@
                         >First Name</label
                       >
                       <input
+                        [ngClass]="{
+                          'border-red-500': errorCardFirstName,
+                          'border-indigo-300': !errorCardFirstName
+                        }"
                         [(ngModel)]="userBillingInfo.info.FirstName"
                         type="text"
                         id="first_name"
-                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                         placeholder="First Name"
                         required
                       />
@@ -91,9 +176,13 @@
                       >
                       <input
                         [(ngModel)]="userBillingInfo.info.LastName"
+                        [ngClass]="{
+                          'border-red-500': errorCardLastName,
+                          'border-indigo-300': !errorCardLastName
+                        }"
                         type="text"
                         id="last_name"
-                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                         placeholder="Last Name"
                         required
                       />
@@ -111,10 +200,17 @@
                         CVC</label
                       >
                       <input
+                        [ngClass]="{
+                          'border-red-500': errorCardCVC,
+                          'border-indigo-300': !errorCardCVC
+                        }"
+                        minlength="3"
+                        maxlength="3"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                         [(ngModel)]="userBillingInfo.info.cvc"
                         type="text"
                         id="cvc"
-                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                         placeholder="CVC"
                         required
                       />
@@ -127,10 +223,17 @@
                         >Exp Month (MM)</label
                       >
                       <input
+                        [ngClass]="{
+                          'border-red-500': errorCardExpMonth,
+                          'border-indigo-300': !errorCardExpMonth
+                        }"
+                        minlength="2"
+                        maxlength="2"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                         [(ngModel)]="userBillingInfo.info.ExpMonth"
                         type="text"
                         id="ExpirationMonth"
-                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                         placeholder="EX/ 01 (MM)"
                         required
                       />
@@ -143,10 +246,17 @@
                         >Exp Year (YYYY)</label
                       >
                       <input
+                        [ngClass]="{
+                          'border-red-500': errorCardExpYear,
+                          'border-indigo-300': !errorCardExpYear
+                        }"
+                        minlength="4"
+                        maxlength="4"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                         [(ngModel)]="userBillingInfo.info.ExpYear"
                         type="text"
                         id="ExpirationYear"
-                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                         placeholder="EX/ 1999 (YYYY)"
                         required
                       />
@@ -172,10 +282,14 @@
                             >Street</label
                           >
                           <input
+                            [ngClass]="{
+                              'border-red-500': errorCardStreet,
+                              'border-indigo-300': !errorCardStreet
+                            }"
                             [(ngModel)]="userBillingInfo.billing.street"
                             type="text"
                             id="billingStreet"
-                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                             placeholder="Your Address"
                             required
                           />
@@ -211,10 +325,17 @@
                             >Postal Code</label
                           >
                           <input
+                            [ngClass]="{
+                              'border-red-500': errorCardPostal,
+                              'border-indigo-300': !errorCardPostal
+                            }"
+                            minlength="5"
+                            maxlength="5"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             [(ngModel)]="userBillingInfo.billing.postalCode"
                             type="text"
                             id="billing_postal"
-                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                             placeholder="Your Postal Code"
                             required
                           />
@@ -228,10 +349,14 @@
                             City
                           </label>
                           <input
+                            [ngClass]="{
+                              'border-red-500': errorCardCity,
+                              'border-indigo-300': !errorCardCity
+                            }"
                             [(ngModel)]="userBillingInfo.billing.city"
                             type="text"
                             id="billing_city"
-                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                             placeholder="Your City"
                             required
                           />
@@ -245,10 +370,14 @@
                             Country
                           </label>
                           <input
+                            [ngClass]="{
+                              'border-red-500': errorCardCountry,
+                              'border-indigo-300': !errorCardCountry
+                            }"
                             [(ngModel)]="userBillingInfo.billing.country"
                             type="text"
                             id="billing_country"
-                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                             placeholder="Your Country"
                             required
                           />

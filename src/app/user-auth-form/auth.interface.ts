@@ -54,3 +54,17 @@ export interface userBillingInformation {
   };
   isDefault: boolean;
 }
+
+export interface addCarInformation {
+  id: string;
+  carInfo: {
+    state: string;
+    carType: string;
+    licensePlate: string;
+    carBrand: string;
+    carModel: string;
+    carColor: string;
+    carYear: string;
+  };
+  isDefault: boolean;
+}

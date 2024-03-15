@@ -1,0 +1,376 @@
+<div
+  class="fixed inset-0 z-10 overflow-auto bg-black bg-opacity-50 modal"
+  x-show="isOpen"
+  [class.open]="isEditCarModal"
+>
+  <div class="flex justify-center items-center h-full">
+    <div class="modal-dialog max-w-lg bg-white rounded-lg shadow-lg">
+      <div class="modal-content">
+        <div class="modal-header pb-2">
+          <button
+            (click)="closeEditCarModal()"
+            type="button"
+            class="close text-gray-500 cursor-pointer hover:border hover:rounded-full hover:bg-slate-400 hover:shadow-lg"
+          >
+            &times;
+          </button>
+        </div>
+        <!-- Adding Card Form  -->
+        <main
+          class="w-full py-1 md:w-2/3 lg:w-3/4 mx-auto flex flex-col justify-center align-middle"
+        >
+          <div class="flex justify-center">
+            <div class="w-full px-6 pb-8 mt-4 sm:max-w-xl sm:rounded-lg">
+              <!-- Connect with DB for User's name -->
+              <h2 class="pl-6 text-2xl font-bold text-center sm:text-xl">
+                Edit Car Information
+              </h2>
+              <div *ngIf="licensePlateMessageError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! License Plate must be filled and have 3 to 11
+                  characters.
+                </p>
+              </div>
+              <div *ngIf="stateMessageError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! State must be selected.
+                </p>
+              </div>
+              <div *ngIf="carTypeError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! Car Type must be selected.
+                </p>
+              </div>
+              <div *ngIf="carBrandError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! Car Brand must be selected.
+                </p>
+              </div>
+              <div *ngIf="carModelError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! Car Models must be selected.
+                </p>
+              </div>
+              <div *ngIf="carColorError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! Car Color must be selected.
+                </p>
+              </div>
+              <div *ngIf="carYearError">
+                <p class="text-sm text-red-500 text-center">
+                  Error! Car Year must be selected.
+                </p>
+              </div>
+
+              <div class="mt-4">
+                <label
+                  for="licensePlate"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >License Plate</label
+                >
+                <input
+                  [(ngModel)]="userSelectedInput.carInfo.licensePlate"
+                  [ngClass]="{
+                    'border-red-500': licensePlateMessageError,
+                    'border-indigo-300': !licensePlateMessageError
+                  }"
+                  oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')"
+                  minlength="6"
+                  maxlength="9"
+                  type="text"
+                  id="licensePlate"
+                  class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  placeholder="EX/ 7ACS214"
+                  required
+                />
+              </div>
+
+              <div class="mt-4">
+                <label
+                  for="stateLicensePlate"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >Select State of License Plate</label
+                >
+                <select
+                  [(ngModel)]="userSelectedInput.carInfo.state"
+                  [ngClass]="{
+                    'border-red-500': stateMessageError,
+                    'border-indigo-300': !stateMessageError
+                  }"
+                  id="stateLicensePlate"
+                  class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  required
+                >
+                  <option value="" disabled selected>Select State</option>
+                  <option value="Alabama">Alabama</option>
+                  <option value="Alaska">Alaska</option>
+                  <option value="Arizona">Arizona</option>
+                  <option value="Arkansas">Arkansas</option>
+                  <option value="California">California</option>
+                  <option value="Colorado">Colorado</option>
+                  <option value="Connecticut">Connecticut</option>
+                  <option value="Delaware">Delaware</option>
+                  <option value="Florida">Florida</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Hawaii">Hawaii</option>
+                  <option value="Idaho">Idaho</option>
+                  <option value="Illinois">Illinois</option>
+                  <option value="Indiana">Indiana</option>
+                  <option value="Iowa">Iowa</option>
+                  <option value="Kansas">Kansas</option>
+                  <option value="Kentucky">Kentucky</option>
+                  <option value="Louisiana">Louisiana</option>
+                  <option value="Maine">Maine</option>
+                  <option value="Maryland">Maryland</option>
+                  <option value="Massachusetts">Massachusetts</option>
+                  <option value="Michigan">Michigan</option>
+                  <option value="Minnesota">Minnesota</option>
+                  <option value="Mississippi">Mississippi</option>
+                  <option value="Missouri">Missouri</option>
+                  <option value="Montana">Montana</option>
+                  <option value="Nebraska">Nebraska</option>
+                  <option value="Nevada">Nevada</option>
+                  <option value="New Hampshire">New Hampshire</option>
+                  <option value="New Jersey">New Jersey</option>
+                  <option value="New Mexico">New Mexico</option>
+                  <option value="New York">New York</option>
+                  <option value="North Carolina">North Carolina</option>
+                  <option value="North Dakota">North Dakota</option>
+                  <option value="Ohio">Ohio</option>
+                  <option value="Oklahoma">Oklahoma</option>
+                  <option value="Oregon">Oregon</option>
+                  <option value="Pennsylvania">Pennsylvania</option>
+                  <option value="Rhode Island">Rhode Island</option>
+                  <option value="South Carolina">South Carolina</option>
+                  <option value="South Dakota">South Dakota</option>
+                  <option value="Tennessee">Tennessee</option>
+                  <option value="Texas">Texas</option>
+                  <option value="Utah">Utah</option>
+                  <option value="Vermont">Vermont</option>
+                  <option value="Virginia">Virginia</option>
+                  <option value="Washington">Washington</option>
+                  <option value="West Virginia">West Virginia</option>
+                  <option value="Wisconsin">Wisconsin</option>
+                  <option value="Wyoming">Wyoming</option>
+                </select>
+              </div>
+
+              <div class="mt-4">
+                <label
+                  for="carType"
+                  class="block mb-2 text-sm font-medium text-indigo-900"
+                  >Car Type</label
+                >
+                <select
+                  [(ngModel)]="userSelectedInput.carInfo.carType"
+                  id="carType"
+                  class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                  required
+                  [ngClass]="{
+                    'border-red-500': carTypeError,
+                    'border-indigo-300': !carTypeError
+                  }"
+                >
+                  <option value="" disabled selected>Select Car Type</option>
+                  <option value="sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="truck">Truck</option>
+                  <option value="van">Van</option>
+                </select>
+              </div>
+
+              <div class="grid max-w-2xl mx-auto">
+                <div
+                  class="items-center align-middle justify-center mt-8 text-[#202142]"
+                >
+                  <div
+                    class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                  >
+                    <div class="w-full">
+                      <label
+                        for="carBrandSelect"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                        >Select Car Brand</label
+                      >
+                      <select
+                        (change)="onBrandChangeHandler()"
+                        [(ngModel)]="userSelectedInput.carInfo.carBrand"
+                        id="carBrandSelect"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        required
+                        [ngClass]="{
+                          'border-red-500': carBrandError,
+                          'border-indigo-300': !carBrandError
+                        }"
+                      >
+                        <option value="" disabled selected>
+                          Select Car Brand
+                        </option>
+                        <option
+                          *ngFor="let brand of carBrands"
+                          [value]="brand"
+                          (click)="setDefaultCarBrand(brand)"
+                        >
+                          {{ brand }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="w-full">
+                      <label
+                        for="carModelSelect"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                        >Select Car Model</label
+                      >
+
+                      <input
+                        [(ngModel)]="userSelectedInput.carInfo.carModel"
+                        [ngClass]="{
+                          'border-red-500': carModelError,
+                          'border-indigo-300': !carModelError
+                        }"
+                        *ngIf="
+                          userSelectedInput.carInfo.carModel === 'Other';
+                          else elseBlock
+                        "
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')"
+                        minlength="1"
+                        type="text"
+                        id="carModelOther"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        placeholder="Ex/Accord"
+                        required
+                      />
+
+                      <ng-template #elseBlock>
+                        <select
+                          [(ngModel)]="userSelectedInput.carInfo.carModel"
+                          id="carModelSelect"
+                          class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                          required
+                          [ngClass]="{
+                            'border-red-500': carModelError,
+                            'border-indigo-300': !carModelError
+                          }"
+                        >
+                          <option value="" disabled selected>
+                            Select Car Model
+                          </option>
+                          <option
+                            *ngFor="
+                              let model of carModels[
+                                userSelectedInput.carInfo.carBrand
+                              ]
+                            "
+                            [value]="model"
+                            (click)="setDefaultCarModel(model)"
+                          >
+                            {{ model }}
+                          </option>
+                        </select>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
+                  >
+                    <div class="w-full">
+                      <label
+                        for="color"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                      >
+                        Color</label
+                      >
+                      <select
+                        [ngClass]="{
+                          'border-red-500': carColorError,
+                          'border-indigo-300': !carColorError
+                        }"
+                        [(ngModel)]="userSelectedInput.carInfo.carColor"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Select Car Color
+                        </option>
+                        <option
+                          *ngFor="let color of listOfColors"
+                          [value]="color"
+                        >
+                          {{ color }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="w-full">
+                      <label
+                        for="year"
+                        class="block mb-2 text-sm font-medium text-indigo-900"
+                        >Car Year</label
+                      >
+
+                      <select
+                        [ngClass]="{
+                          'border-red-500': carYearError,
+                          'border-indigo-300': !carYearError
+                        }"
+                        [(ngModel)]="userSelectedInput.carInfo.carYear"
+                        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Select Car Year
+                        </option>
+                        <option *ngFor="let year of listOfArray" [value]="year">
+                          {{ year }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex flex-col justify-center align-middle items-center pt-4 pb-4"
+                  >
+                    <div
+                      class="flex items-center gap-1 justify-center text-center"
+                    >
+                      <input
+                        (click)="onDefaultHandler()"
+                        [(ngModel)]="userSelectedInput.isDefault"
+                        checked
+                        id="checked-checkbox"
+                        type="checkbox"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                      />
+                      <label
+                        for="checked-checkbox"
+                        class="text-sm font-medium text-gray-900"
+                      >
+                        Set as Default
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Add Logic to save -->
+                  <div
+                    class="flex flex-col justify-center items-center mx-auto"
+                  >
+                    <button
+                      (click)="addCarHandler()"
+                      type="submit"
+                      class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <div class="modal-body mt-2">
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

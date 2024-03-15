@@ -11,11 +11,13 @@
     </button>
   </div>
   <div class="overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right">
+    <table
+      class="w-full text-sm text-left rtl:text-right align-bottom justify-center text-center"
+    >
       <thead class="text-xs uppercase bg-slate-700 text-gray-200">
         <tr>
-          <th scope="col" class="px-6 py-3">Card Description</th>
           <th scope="col" class="px-6 py-3">Card Number</th>
+          <th scope="col" class="px-6 py-3">Card Description</th>
           <th scope="col" class="px-6 py-3">CVC</th>
           <th scope="col" class="px-6 py-3">Exp MM</th>
           <th scope="col" class="px-6 py-3">Exp YYYY</th>
@@ -37,9 +39,14 @@
           *ngFor="let item of userBillingInfoList"
         >
           <td class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">
-            {{ item.info.Description }}
+            {{ item.info.Number }}
+            <span
+              class="text-xs text-red-500 dark:text-red-400 ml-1"
+              *ngIf="item.isDefault"
+              >Default</span
+            >
           </td>
-          <td class="px-6 py-4">{{ item.info.Number }}</td>
+          <td class="px-6 py-4">{{ item.info.Description }}</td>
           <td class="px-6 py-4">{{ item.info.cvc }}</td>
           <td class="px-6 py-4">{{ item.info.ExpMonth }}</td>
           <td class="px-6 py-4">{{ item.info.ExpYear }}</td>
@@ -56,7 +63,6 @@
           <td class="px-6 py-4 text-right">
             <a
               (click)="openEditModal(); setSelectedEditId(item.id)"
-              href="#"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Edit</a
             >
@@ -64,15 +70,14 @@
           <td class="px-6 py-4 text-right">
             <a
               (click)="openDeleteModal(); setSelectedDeleteId(item.id)"
-              href="#"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Delete</a
             >
           </td>
           <td class="px-6 py-4 text-right">
             <a
+              *ngIf="!item.isDefault"
               (click)="openSetDefaultModal(); setDefaultModalId(item.id)"
-              href="#"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Set as Default</a
             >

@@ -70,16 +70,30 @@ export class PersonalInfoComponent implements OnInit {
           .from('users')
           .select('firstName, lastName, personalInfo, email')
           .eq('firebaseId', user.uid);
-        if (data) {
-          this.userInfo.firstName = data[0].firstName;
-          this.userInfo.lastName = data[0].lastName;
-          this.userInfo.personalInfo = data[0].personalInfo;
-          this.email = data[0].email;
+        if (data && data.length > 0) {
+          const userData = data[0];
+
+          this.userInfo.firstName = userData.firstName;
+          this.userInfo.lastName = userData.lastName;
+          this.userInfo.personalInfo.phoneNumber =
+            userData.personalInfo?.phoneNumber ?? '';
+          this.userInfo.personalInfo.street =
+            userData.personalInfo?.street ?? '';
+          this.userInfo.personalInfo.apartmentNumber =
+            userData.personalInfo?.apartmentNumber ?? '';
+          this.userInfo.personalInfo.postalCode =
+            userData.personalInfo?.postalCode ?? '';
+          this.userInfo.personalInfo.city = userData.personalInfo?.city ?? '';
+          this.userInfo.personalInfo.country =
+            userData.personalInfo?.country ?? '';
+          this.email = userData.email;
+        } else {
+          console.log('User data not found.');
         }
       } else {
         console.log('User is not authenticated.');
       }
-      unsubscribe(); // Unsubscribe to avoid memory leaks
+      unsubscribe();
     });
   }
 }

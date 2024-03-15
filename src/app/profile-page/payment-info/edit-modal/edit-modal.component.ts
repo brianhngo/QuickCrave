@@ -25,6 +25,107 @@ export class EditModalComponent implements OnChanges {
   @Output() closed = new EventEmitter<void>();
   @Input() editId: string = '';
 
+  // indicator that one of the inputs was left blank
+  errorCardNumber: boolean = false;
+  errorCardDescription: boolean = false;
+  errorCardFirstName: boolean = false;
+  errorCardLastName: boolean = false;
+  errorCardCVC: boolean = false;
+  errorCardExpMonth: boolean = false;
+  errorCardExpYear: boolean = false;
+  errorCardStreet: boolean = false;
+  errorCardPostal: boolean = false;
+  errorCardCity: boolean = false;
+  errorCardCountry: boolean = false;
+
+  resetErrorMessage() {
+    this.errorCardNumber = false;
+    this.errorCardDescription = false;
+    this.errorCardFirstName = false;
+    this.errorCardLastName = false;
+    this.errorCardCVC = false;
+    this.errorCardExpMonth = false;
+    this.errorCardExpYear = false;
+    this.errorCardStreet = false;
+    this.errorCardPostal = false;
+    this.errorCardCity = false;
+    this.errorCardCountry = false;
+  }
+
+  checkRequirement2(): boolean {
+    if (
+      this.userBillingInfo.info.Number.length < 12 ||
+      this.userBillingInfo.info.Number.length > 19
+    ) {
+      this.resetErrorMessage();
+      this.errorCardNumber = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.Description.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardDescription = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.FirstName.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardFirstName = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.LastName.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardLastName = true;
+      return false;
+    }
+
+    if (
+      this.userBillingInfo.info.cvc.length < 3 ||
+      this.userBillingInfo.info.cvc.length > 3
+    ) {
+      this.resetErrorMessage();
+      this.errorCardCVC = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.info.ExpMonth.length !== 2) {
+      this.resetErrorMessage();
+      this.errorCardExpMonth = true;
+      return false;
+    }
+    if (this.userBillingInfo.info.ExpYear.length !== 4) {
+      this.resetErrorMessage();
+      this.errorCardExpYear = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.street.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardStreet = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.postalCode.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardPostal = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.city.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardCity = true;
+      return false;
+    }
+
+    if (this.userBillingInfo.billing.country.length < 1) {
+      this.resetErrorMessage();
+      this.errorCardCountry = true;
+      return false;
+    }
+    return true;
+  }
+
   closeEditModal() {
     if (this.formDirty) {
       // User makes changes and decides to exit modal. Reset to default value
@@ -32,6 +133,7 @@ export class EditModalComponent implements OnChanges {
     } else {
       // user hits saves changes, now i need to update the inputs with the new value
     }
+    this.resetErrorMessage();
     this.isEditOpen = false;
     this.closed.emit();
   }
@@ -100,6 +202,11 @@ export class EditModalComponent implements OnChanges {
 
   async editCardDate() {
     try {
+      if (!this.checkRequirement2()) {
+        this.resetInputValues();
+        return;
+      }
+
       if (!this.isDefaultStatus) {
         // Update the specific row in the billing table
         await supabase
@@ -112,7 +219,6 @@ export class EditModalComponent implements OnChanges {
           .then(() => {
             this.formDirty = false;
             this.getUserBillingList();
-
             this.closeEditModal();
           });
       } else {
