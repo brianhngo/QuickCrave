@@ -7,6 +7,8 @@ import { supabase } from '../../../../supabase.config';
 import { auth } from '../../firebase.config';
 import { addCarInformation } from '../../user-auth-form/auth.interface';
 import { CommonModule } from '@angular/common';
+import { AddDriverLicenseComponent } from './add-driver-license/add-driver-license.component';
+import { EditDriverLicenseComponent } from './edit-driver-license/edit-driver-license.component';
 @Component({
   selector: 'app-driver-profile',
   standalone: true,
@@ -15,6 +17,8 @@ import { CommonModule } from '@angular/common';
     DeleteCarModalComponent,
     EditCarModalComponent,
     SetCarAsDefaultModalComponent,
+    AddDriverLicenseComponent,
+    EditDriverLicenseComponent,
     CommonModule,
   ],
   templateUrl: './driver-profile.component.html',
@@ -114,9 +118,50 @@ export class DriverProfileComponent implements OnInit {
   closeDefaultCarModal() {
     this.isDefaultCarModal = false;
   }
+
+  isDriverLicenseModal: boolean = false;
+
+  openDriverLicenseModal() {
+    this.isDriverLicenseModal = true;
+  }
+
+  closeDriverLicenseModal() {
+    this.isDriverLicenseModal = false;
+  }
+  // this will be the default Make User upload Driver License or they dont see the page and its blurred out
+  isDriverModal: boolean = false;
+
+  // checks if the user has already been verified as a driver (inputs Driver license information)
+  async isUserADriver() {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('isDriver')
+        .eq('firebaseId', auth?.currentUser?.uid)
+        .single();
+      if (error) {
+        console.error('Error fetching user data:', error.message);
+        return;
+      }
+
+      if (data) {
+        this.isDriverModal = data.isDriver;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  addDriverLicenseInformation: boolean = false;
+
+  changeAddDriverLicenseInformationHandler() {
+    this.addDriverLicenseInformation = !this.addDriverLicenseInformation;
+  }
+
   ngOnInit(): void {
     try {
       this.getCarList();
+      this.isUserADriver();
     } catch (error) {
       console.log(error);
     }
