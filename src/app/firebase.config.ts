@@ -5,13 +5,14 @@ import { getAuth } from 'firebase/auth';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
+import { getStorage } from 'firebase/storage';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyARcwvD4T4b7SPd-2v5ufcB-udBa7vl9WM',
   authDomain: 'quickcrave-fdde8.firebaseapp.com',
   projectId: 'quickcrave-fdde8',
@@ -23,6 +24,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+export const storage = getStorage(app);

@@ -68,3 +68,19 @@ export interface addCarInformation {
   };
   isDefault: boolean;
 }
+
+export interface driverLicenseInformation {
+  driverLicenseFront: any;
+  driverLicenseBack: any;
+  id: string;
+  isValidated: boolean;
+  licenseNumber: string;
+  licenseState: string;
+  addressCity: string;
+  addressStreet: string;
+  addressZipcode: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  expDate: string;
+}

@@ -4,11 +4,17 @@ import { DeleteCarModalComponent } from './delete-car-modal/delete-car-modal.com
 import { EditCarModalComponent } from './edit-car-modal/edit-car-modal.component';
 import { SetCarAsDefaultModalComponent } from './set-car-as-default-modal/set-car-as-default-modal.component';
 import { supabase } from '../../../../supabase.config';
-import { auth } from '../../firebase.config';
+import { auth, app, firebaseConfig, storage } from '../../firebase.config';
 import { addCarInformation } from '../../user-auth-form/auth.interface';
 import { CommonModule } from '@angular/common';
 import { AddDriverLicenseComponent } from './add-driver-license/add-driver-license.component';
 import { EditDriverLicenseComponent } from './edit-driver-license/edit-driver-license.component';
+import { FormsModule } from '@angular/forms';
+import { driverLicenseInformation } from '../../user-auth-form/auth.interface';
+import { Observable } from 'rxjs';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+
 @Component({
   selector: 'app-driver-profile',
   standalone: true,
@@ -20,13 +26,19 @@ import { EditDriverLicenseComponent } from './edit-driver-license/edit-driver-li
     AddDriverLicenseComponent,
     EditDriverLicenseComponent,
     CommonModule,
+    FormsModule,
+    AngularFireStorageModule,
   ],
+
   templateUrl: './driver-profile.component.html',
   styleUrl: './driver-profile.component.css',
 })
 export class DriverProfileComponent implements OnInit {
-  // Add Car Modal
+  // Inject AngularFireStorage in the constructor
   constructor(private cdr: ChangeDetectorRef) {}
+
+  // Properties and variables
+
   isAddCarModal: boolean = false;
 
   userCarList: addCarInformation[] = [];
@@ -136,16 +148,42 @@ export class DriverProfileComponent implements OnInit {
     try {
       const { data, error } = await supabase
         .from('users')
-        .select('isDriver')
+        .select('isDriver, isValidated, driverLicense')
         .eq('firebaseId', auth?.currentUser?.uid)
         .single();
+
       if (error) {
         console.error('Error fetching user data:', error.message);
         return;
       }
 
       if (data) {
-        this.isDriverModal = data.isDriver;
+        if (
+          data.isValidated === 'TRUE' &&
+          Object.keys(data.driverLicense).length !== 0
+        ) {
+          // Checking if the user been validated and the driverLicense is not empty
+          this.isDriverModal = data.isDriver; // going to change the isDriverModal to true, meaning driver profile appears
+          this.isUserValidated = data.isValidated;
+        } else if (
+          data.isValidated === 'PENDING' &&
+          Object.keys(data.driverLicense).length !== 0
+        ) {
+          // User has inputted Data but waiting to be verified
+
+          this.isDriverModal = data.isDriver;
+          this.addDriverLicenseInformation = false;
+          this.isUserValidated = data.isValidated;
+        } else if (
+          data.isValidated === 'FALSE' &&
+          Object.keys(data.driverLicense).length === 0
+        ) {
+          // user has yet to input anything
+
+          this.isDriverModal = data.isDriver;
+          this.addDriverLicenseInformation = false;
+          this.isUserValidated = data.isValidated;
+        }
       }
     } catch (error) {
       console.error('Error:', error);
@@ -158,10 +196,91 @@ export class DriverProfileComponent implements OnInit {
     this.addDriverLicenseInformation = !this.addDriverLicenseInformation;
   }
 
+  driverLicenseInformation: driverLicenseInformation = {
+    driverLicenseFront: null,
+    driverLicenseBack: null,
+    id: '',
+    isValidated: false,
+    licenseNumber: '',
+    licenseState: '',
+    addressCity: '',
+    addressStreet: '',
+    addressZipcode: '',
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    expDate: '',
+  };
+
+  isUserValidated = '';
+
+  // submit DL info Handler
+  async submitDriverLicenseInfo() {
+    try {
+      this.isUserValidated = 'PENDING';
+
+      await this.onFileChange(
+        this.driverLicenseInformation.driverLicenseFront,
+        'front'
+      ),
+        await this.onFileChange(
+          this.driverLicenseInformation.driverLicenseBack,
+          'back'
+        );
+
+      await supabase
+        .from('users')
+        .update({
+          driverLicense: this.driverLicenseInformation,
+          isValidated: this.isUserValidated,
+        })
+        .eq('firebaseId', auth?.currentUser?.uid);
+
+      this.isUserADriver();
+      this.changeAddDriverLicenseInformationHandler();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // saves file into DB
+  async onFileChange(file: any, type: any): Promise<void> {
+    try {
+      // Ensure file is provided
+      if (!file) {
+        console.error('No file provided.');
+        return;
+      }
+
+      // Define the file path
+      const filePath = `${auth?.currentUser?.uid}/${type}/${file}`;
+      console.log('Uploading file to:', filePath);
+
+      // Create a reference to the file path
+      const fileRef = ref(storage, filePath);
+
+      // Upload the file
+      await uploadBytes(fileRef, file);
+      console.log('File uploaded successfully.');
+
+      // Get the download URL of the file
+      const downloadURL = await getDownloadURL(fileRef);
+
+      // Store download URL in appropriate part of driver license information
+      if (type === 'front') {
+        this.driverLicenseInformation.driverLicenseFront = downloadURL;
+      } else if (type === 'back') {
+        this.driverLicenseInformation.driverLicenseBack = downloadURL;
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  }
+
   ngOnInit(): void {
     try {
-      this.getCarList();
       this.isUserADriver();
+      this.getCarList();
     } catch (error) {
       console.log(error);
     }

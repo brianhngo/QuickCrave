@@ -1,5 +1,5 @@
 <div
-  *ngIf="isDriverModal"
+  *ngIf="isDriverModal && isUserValidated === 'TRUE'"
   class="bg-white w-full flex flex-col justify-center align-middle gap-5 px-3 mx-auto text-[#161931]"
 >
   <h1 class="text-center text-5xl text-black">Driver Information</h1>
@@ -10,13 +10,6 @@
       class="text-white w-[100px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
     >
       Add Car
-    </button>
-    <button
-      (click)="openDriverLicenseModal()"
-      type="submit"
-      class="text-white w-[180px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
-    >
-      Add Driver License
     </button>
   </div>
   <div class="overflow-x-auto shadow-md sm:rounded-lg">
@@ -115,12 +108,6 @@
   (closed)="closeDefaultCarModal()"
 ></app-set-car-as-default-modal>
 
-<app-add-driver-license
-  [isDriverLicenseModal]="isDriverLicenseModal"
-  (closed)="closeDriverLicenseModal()"
->
-</app-add-driver-license>
-
 <div
   *ngIf="!isDriverModal"
   class="fixed inset-0 flex items-center justify-center"
@@ -129,7 +116,7 @@
 
   <!-- Overlay -->
   <div
-    *ngIf="addDriverLicenseInformation === false"
+    *ngIf="!addDriverLicenseInformation && isUserValidated === 'FALSE'"
     class="bg-white rounded-lg shadow-md p-6 z-10"
   >
     <div class="text-center mb-4">
@@ -152,8 +139,8 @@
   </div>
 
   <div
-    *ngIf="addDriverLicenseInformation"
-    class="bg-white rounded-lg shadow-md p-6 z-10"
+    *ngIf="addDriverLicenseInformation === true && isUserValidated === 'FALSE'"
+    class="bg-white rounded-lg shadow-md p-6 z-10 m-6 w-[25%]"
   >
     <div class="text-center mb-4">
       <h2 class="text-lg font-semibold">Add Driver License Information</h2>
@@ -161,12 +148,12 @@
     <div class="mt-4">
       <label
         for="licensePlate"
-        class="block mb-2 text-sm font-medium text-indigo-900"
+        class="block mb-2 text-md font-medium text-indigo-900"
         >Driver License #</label
       >
       <input
+        [(ngModel)]="driverLicenseInformation.licenseNumber"
         oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '')"
-        minlength="6"
         maxlength="9"
         type="text"
         id="licensePlate"
@@ -175,83 +162,253 @@
         required
       />
     </div>
-    <div class="mt-4">
+    <div>
       <label
-        for="licensePlate"
-        class="block mb-2 text-sm font-medium text-indigo-900"
-        >First Name</label
+        for="licensePlateFront"
+        class="block mb-2 text-md font-medium text-indigo-900"
+      >
+        Driver License Picture (Front)</label
       >
       <input
-        oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '')"
-        minlength="6"
-        maxlength="9"
-        type="text"
-        id="licensePlate"
+        [(ngModel)]="driverLicenseInformation.driverLicenseFront"
+        type="file"
+        id="licensePlateFront"
         class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-        placeholder="EX/ 7ACS214"
         required
       />
     </div>
-    <div class="mt-4">
+    <div>
       <label
-        for="licensePlate"
-        class="block mb-2 text-sm font-medium text-indigo-900"
-        >Last Name</label
+        for="licensePlateBack"
+        class="block mb-2 text-md font-medium text-indigo-900"
       >
-      <input
-        oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '')"
-        minlength="6"
-        maxlength="9"
-        type="text"
-        id="licensePlate"
-        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-        placeholder="EX/ 7ACS214"
-        required
-      />
-    </div>
-    <div class="mt-4">
-      <label
-        for="licensePlate"
-        class="block mb-2 text-sm font-medium text-indigo-900"
-        >Exp Date</label
-      >
-      <input
-        oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '')"
-        minlength="6"
-        maxlength="9"
-        type="text"
-        id="licensePlate"
-        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-        placeholder="EX/ 7ACS214"
-        required
-      />
-    </div>
-    <div class="mt-4">
-      <label
-        for="licensePlate"
-        class="block mb-2 text-sm font-medium text-indigo-900"
-        >DOB
+        Driver License Picture (Back)
       </label>
       <input
-        oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '')"
-        minlength="6"
-        maxlength="9"
-        type="text"
-        id="licensePlate"
+        [(ngModel)]="driverLicenseInformation.driverLicenseBack"
+        type="file"
+        id="licensePlateBack"
         class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-        placeholder="EX/ 7ACS214"
         required
       />
     </div>
 
+    <div class="mt-4">
+      <label
+        for="stateLicensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >Select State of License Plate</label
+      >
+      <select
+        [(ngModel)]="driverLicenseInformation.licenseState"
+        id="stateLicensePlate"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        required
+      >
+        <option value="" disabled selected>Select State</option>
+        <option value="Alabama">Alabama</option>
+        <option value="Alaska">Alaska</option>
+        <option value="Arizona">Arizona</option>
+        <option value="Arkansas">Arkansas</option>
+        <option value="California">California</option>
+        <option value="Colorado">Colorado</option>
+        <option value="Connecticut">Connecticut</option>
+        <option value="Delaware">Delaware</option>
+        <option value="Florida">Florida</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Hawaii">Hawaii</option>
+        <option value="Idaho">Idaho</option>
+        <option value="Illinois">Illinois</option>
+        <option value="Indiana">Indiana</option>
+        <option value="Iowa">Iowa</option>
+        <option value="Kansas">Kansas</option>
+        <option value="Kentucky">Kentucky</option>
+        <option value="Louisiana">Louisiana</option>
+        <option value="Maine">Maine</option>
+        <option value="Maryland">Maryland</option>
+        <option value="Massachusetts">Massachusetts</option>
+        <option value="Michigan">Michigan</option>
+        <option value="Minnesota">Minnesota</option>
+        <option value="Mississippi">Mississippi</option>
+        <option value="Missouri">Missouri</option>
+        <option value="Montana">Montana</option>
+        <option value="Nebraska">Nebraska</option>
+        <option value="Nevada">Nevada</option>
+        <option value="New Hampshire">New Hampshire</option>
+        <option value="New Jersey">New Jersey</option>
+        <option value="New Mexico">New Mexico</option>
+        <option value="New York">New York</option>
+        <option value="North Carolina">North Carolina</option>
+        <option value="North Dakota">North Dakota</option>
+        <option value="Ohio">Ohio</option>
+        <option value="Oklahoma">Oklahoma</option>
+        <option value="Oregon">Oregon</option>
+        <option value="Pennsylvania">Pennsylvania</option>
+        <option value="Rhode Island">Rhode Island</option>
+        <option value="South Carolina">South Carolina</option>
+        <option value="South Dakota">South Dakota</option>
+        <option value="Tennessee">Tennessee</option>
+        <option value="Texas">Texas</option>
+        <option value="Utah">Utah</option>
+        <option value="Vermont">Vermont</option>
+        <option value="Virginia">Virginia</option>
+        <option value="Washington">Washington</option>
+        <option value="West Virginia">West Virginia</option>
+        <option value="Wisconsin">Wisconsin</option>
+        <option value="Wyoming">Wyoming</option>
+      </select>
+    </div>
+    <div class="scroll-mt-6">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >First Name</label
+      >
+      <input
+        [(ngModel)]="driverLicenseInformation.firstName"
+        oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')"
+        type="text"
+        id="firstName"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        placeholder="EX/ Vincent"
+        required
+      />
+    </div>
+    <div class="mt-6">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >Last Name</label
+      >
+      <input
+        [(ngModel)]="driverLicenseInformation.lastName"
+        oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')"
+        type="text"
+        id="lastName"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        placeholder="EX/ 7ACS214"
+        required
+      />
+    </div>
+    <div class="mt-4">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >Street Address
+      </label>
+      <input
+        [(ngModel)]="driverLicenseInformation.addressStreet"
+        oninput="this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '')"
+        type="text"
+        id="address"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        placeholder="EX/ 123 Main Street"
+        required
+      />
+    </div>
+    <div class="mt-4">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+      >
+        City
+      </label>
+      <input
+        [(ngModel)]="driverLicenseInformation.addressCity"
+        oninput="this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '')"
+        type="text"
+        id="City"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        placeholder="EX/ Los Angeles"
+        required
+      />
+    </div>
+    <div class="mt-4">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >Zipcode
+      </label>
+      <input
+        minlength="0"
+        maxlength="5"
+        [(ngModel)]="driverLicenseInformation.addressZipcode"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        type="text"
+        id="zipcode"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        placeholder="EX/ 92121"
+        required
+      />
+    </div>
+    <div class="mt-4">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >Exp Date</label
+      >
+
+      <input
+        [(ngModel)]="driverLicenseInformation.expDate"
+        datepicker
+        type="date"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full ps-2 p-2.5"
+        placeholder="Select date"
+      />
+    </div>
+    <div class="mt-4">
+      <label
+        for="licensePlate"
+        class="block mb-2 text-md font-medium text-indigo-900"
+        >Date of Birth</label
+      >
+
+      <input
+        [(ngModel)]="driverLicenseInformation.birthDate"
+        datepicker
+        type="date"
+        class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full ps-2 p-2.5"
+        placeholder="Select date"
+      />
+    </div>
+
+    <div class="mt-4">
+      <h1
+        (click)="changeAddDriverLicenseInformationHandler()"
+        class="text-lg font-semibold hover:cursor-pointer hover:underline text-indigo-900 hover:text-indigo-700"
+      >
+        Back
+      </h1>
+    </div>
+
     <!-- You can add buttons here if needed -->
-    <div class="text-center">
+    <div class="text-center mt-4">
       <button
         class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-        (click)="closeDriverLicenseModal()"
+        (click)="submitDriverLicenseInfo()"
       >
         Submit
       </button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div
+    class="bg-white rounded-lg shadow-md p-6 z-10"
+    *ngIf="!addDriverLicenseInformation && isUserValidated === 'PENDING'"
+  >
+    <div class="text-center mb-4">
+      <h2 class="text-lg font-semibold">Thank you</h2>
+    </div>
+    <div class="text-center mb-4">
+      <p>
+        Over the next couple days, your information will be validated by
+        QuickCrave Team.
+      </p>
+      <p>
+        If approved, you will be notified and be granted access to becoming a
+        delivery driver!
+      </p>
     </div>
   </div>
 </div>
