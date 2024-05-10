@@ -71,7 +71,9 @@ export interface addCarInformation {
 
 export interface driverLicenseInformation {
   driverLicenseFront: any;
+  driverLicenseFrontLink: string;
   driverLicenseBack: any;
+  driverLicenseBackLink: string;
   id: string;
   isValidated: boolean;
   licenseNumber: string;

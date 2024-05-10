@@ -167,13 +167,13 @@
         for="licensePlateFront"
         class="block mb-2 text-md font-medium text-indigo-900"
       >
-        Driver License Picture (Front)</label
-      >
+        Driver License Picture (Front)
+      </label>
       <input
-        [(ngModel)]="driverLicenseInformation.driverLicenseFront"
         type="file"
         id="licensePlateFront"
         class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+        (change)="handleFileChange($event, 'front')"
         required
       />
     </div>
@@ -185,7 +185,7 @@
         Driver License Picture (Back)
       </label>
       <input
-        [(ngModel)]="driverLicenseInformation.driverLicenseBack"
+        (change)="handleFileChange($event, 'back')"
         type="file"
         id="licensePlateBack"
         class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"

@@ -12,7 +12,12 @@ import { EditDriverLicenseComponent } from './edit-driver-license/edit-driver-li
 import { FormsModule } from '@angular/forms';
 import { driverLicenseInformation } from '../../user-auth-form/auth.interface';
 import { Observable } from 'rxjs';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from 'firebase/storage';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @Component({
@@ -158,28 +163,20 @@ export class DriverProfileComponent implements OnInit {
       }
 
       if (data) {
-        if (
-          data.isValidated === 'TRUE' &&
-          Object.keys(data.driverLicense).length !== 0
-        ) {
-          // Checking if the user been validated and the driverLicense is not empty
-          this.isDriverModal = data.isDriver; // going to change the isDriverModal to true, meaning driver profile appears
-          this.isUserValidated = data.isValidated;
-        } else if (
-          data.isValidated === 'PENDING' &&
-          Object.keys(data.driverLicense).length !== 0
-        ) {
-          // User has inputted Data but waiting to be verified
+        const isDriverLicenseValid =
+          data.driverLicense && Object.keys(data.driverLicense).length !== 0;
 
+        if (data.isValidated === 'TRUE' && isDriverLicenseValid) {
+          // User is validated and the driverLicense is not empty
+          this.isDriverModal = data.isDriver;
+          this.isUserValidated = data.isValidated;
+        } else if (data.isValidated === 'PENDING' && isDriverLicenseValid) {
+          // User has inputted data but is waiting to be verified
           this.isDriverModal = data.isDriver;
           this.addDriverLicenseInformation = false;
           this.isUserValidated = data.isValidated;
-        } else if (
-          data.isValidated === 'FALSE' &&
-          Object.keys(data.driverLicense).length === 0
-        ) {
-          // user has yet to input anything
-
+        } else if (data.isValidated === 'FALSE' && !isDriverLicenseValid) {
+          // User has not inputted anything
           this.isDriverModal = data.isDriver;
           this.addDriverLicenseInformation = false;
           this.isUserValidated = data.isValidated;
@@ -198,7 +195,9 @@ export class DriverProfileComponent implements OnInit {
 
   driverLicenseInformation: driverLicenseInformation = {
     driverLicenseFront: null,
+    driverLicenseFrontLink: '',
     driverLicenseBack: null,
+    driverLicenseBackLink: '',
     id: '',
     isValidated: false,
     licenseNumber: '',
@@ -219,14 +218,19 @@ export class DriverProfileComponent implements OnInit {
     try {
       this.isUserValidated = 'PENDING';
 
-      await this.onFileChange(
-        this.driverLicenseInformation.driverLicenseFront,
-        'front'
-      ),
+      // Upload the files when the user submits
+      if (this.driverLicenseInformation.driverLicenseFront) {
+        await this.onFileChange(
+          this.driverLicenseInformation.driverLicenseFront,
+          'front'
+        );
+      }
+      if (this.driverLicenseInformation.driverLicenseBack) {
         await this.onFileChange(
           this.driverLicenseInformation.driverLicenseBack,
           'back'
         );
+      }
 
       await supabase
         .from('users')
@@ -242,35 +246,96 @@ export class DriverProfileComponent implements OnInit {
       console.log(error);
     }
   }
+  frontFileName: string = '';
+  backFileName: string = '';
+  handleFileChange(event: any, type: 'front' | 'back'): void {
+    const file = event.target.files[0];
+    if (type === 'front') {
+      this.frontFileName = event.target.files[0];
+    } else {
+      this.backFileName = event.target.files[0];
+    }
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const blob = new Blob([reader.result as ArrayBuffer], {
+          type: file.type,
+        });
+        if (type === 'front') {
+          this.driverLicenseInformation.driverLicenseFront = blob;
+        } else if (type === 'back') {
+          this.driverLicenseInformation.driverLicenseBack = blob;
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
 
   // saves file into DB
-  async onFileChange(file: any, type: any): Promise<void> {
+  async onFileChange(file: File, type: string): Promise<void> {
     try {
-      // Ensure file is provided
-      if (!file) {
-        console.error('No file provided.');
+      // Get the current user ID
+      const userId = auth?.currentUser?.uid;
+      if (!userId) {
+        console.error('User ID not available');
         return;
       }
 
-      // Define the file path
-      const filePath = `${auth?.currentUser?.uid}/${type}/${file}`;
-      console.log('Uploading file to:', filePath);
+      console.log(file, 'file');
 
-      // Create a reference to the file path
+      // Create a file path using user ID, type, and file name
+
+      let filePath = ``;
+
+      if (status === 'type') {
+        filePath = `${userId}/${type}/${this.frontFileName}`;
+      } else {
+        filePath = `${userId}/${type}/${this.backFileName}`;
+      }
+
+      // Create a reference to the file path in Firebase Storage
       const fileRef = ref(storage, filePath);
 
-      // Upload the file
-      await uploadBytes(fileRef, file);
-      console.log('File uploaded successfully.');
+      // Convert the file to base64 format
+      const base64Data = await this.fileToBase64(file);
 
-      // Get the download URL of the file
-      const downloadURL = await getDownloadURL(fileRef);
+      // Remove the prefix (e.g., "data:image/jpeg;base64,") from base64 data
+      const base64Content = base64Data.split(',')[1];
 
-      // Store download URL in appropriate part of driver license information
+      // Set metadata for content type
+      const metadata = {
+        contentType: file.type,
+      };
+
+      // Upload the base64 data to Firebase Storage
+      const uploadTask = uploadString(
+        fileRef,
+        base64Content,
+        'base64',
+        metadata
+      );
+
+      // Retrieve the download URL after the upload is complete
+      const downloadURL = await uploadTask.then(() => getDownloadURL(fileRef));
+
+      console.log('File uploaded successfully. Download URL:', downloadURL);
+
+      // Update state based on the file type
       if (type === 'front') {
-        this.driverLicenseInformation.driverLicenseFront = downloadURL;
+        console.log('Uploaded front of driver license');
+        this.driverLicenseInformation.driverLicenseFrontLink = downloadURL;
       } else if (type === 'back') {
-        this.driverLicenseInformation.driverLicenseBack = downloadURL;
+        console.log('Uploaded back of driver license');
+        this.driverLicenseInformation.driverLicenseBackLink = downloadURL;
       }
     } catch (error) {
       console.error('Error uploading file:', error);
