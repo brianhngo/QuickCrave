@@ -19,6 +19,7 @@ import {
   uploadString,
 } from 'firebase/storage';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { ViewDriverLicenseInfoComponent } from '../view-driver-license-info/view-driver-license-info.component';
 
 @Component({
   selector: 'app-driver-profile',
@@ -33,6 +34,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     CommonModule,
     FormsModule,
     AngularFireStorageModule,
+    ViewDriverLicenseInfoComponent,
   ],
 
   templateUrl: './driver-profile.component.html',
@@ -147,6 +149,7 @@ export class DriverProfileComponent implements OnInit {
   }
   // this will be the default Make User upload Driver License or they dont see the page and its blurred out
   isDriverModal: boolean = false;
+  driverLicenseInfo: Object = {};
 
   // checks if the user has already been verified as a driver (inputs Driver license information)
   async isUserADriver() {
@@ -168,6 +171,7 @@ export class DriverProfileComponent implements OnInit {
 
         if (data.isValidated === 'TRUE' && isDriverLicenseValid) {
           // User is validated and the driverLicense is not empty
+          this.driverLicenseInfo = data.driverLicense;
           this.isDriverModal = data.isDriver;
           this.isUserValidated = data.isValidated;
         } else if (data.isValidated === 'PENDING' && isDriverLicenseValid) {
@@ -340,6 +344,17 @@ export class DriverProfileComponent implements OnInit {
     } catch (error) {
       console.error('Error uploading file:', error);
     }
+  }
+
+  isViewDriverLicenseInfo: boolean = false;
+
+  openDriverLicenseModalInfo() {
+    console.log(this.driverLicenseInfo);
+    this.isViewDriverLicenseInfo = true;
+  }
+
+  closeDriverLicenseModalInfo() {
+    this.isViewDriverLicenseInfo = false;
   }
 
   ngOnInit(): void {
