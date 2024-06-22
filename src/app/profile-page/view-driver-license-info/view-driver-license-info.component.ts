@@ -18,10 +18,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './view-driver-license-info.component.css',
 })
 export class ViewDriverLicenseInfoComponent {
+  @Input() driverLicenseInfo: any;
   @Input() isViewDriverLicenseInfo = false;
   @Output() closed = new EventEmitter<void>();
 
   closeModal() {
+    console.log(this.driverLicenseInfo);
     this.isViewDriverLicenseInfo = false;
     this.closed.emit();
   }

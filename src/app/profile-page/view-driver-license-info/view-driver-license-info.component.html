@@ -25,7 +25,7 @@
               <div class="w-full px-6 pb-8 mt-4 sm:max-w-xl sm:rounded-lg">
                 <!-- Connect with DB for User's name -->
                 <h2 class="pl-6 text-2xl font-bold text-center sm:text-xl">
-                  Add Driver License
+                  View Driver License
                 </h2>
 
                 <div class="flex justify-center mt-4">
@@ -51,16 +51,16 @@
 
                 <div class="mt-4">
                   <label
-                    for="licensePlate"
-                    class="block mb-2 text-sm font-medium text-indigo-900"
+                    for="licenseNumber"
+                    class="block mb-2 text-md font-medium text-indigo-900"
                     >Driver License #</label
                   >
                   <input
+                    [(ngModel)]="driverLicenseInfo.licenseNumber"
                     oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '')"
-                    minlength="6"
                     maxlength="9"
                     type="text"
-                    id="licensePlate"
+                    id="licenseNumber"
                     class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                     placeholder="EX/ 7ACS214"
                     required
@@ -70,10 +70,11 @@
                 <div class="mt-4">
                   <label
                     for="stateLicensePlate"
-                    class="block mb-2 text-sm font-medium text-indigo-900"
+                    class="block mb-2 text-md font-medium text-indigo-900"
                     >Select State of License Plate</label
                   >
                   <select
+                    [(ngModel)]="driverLicenseInfo.licenseState"
                     id="stateLicensePlate"
                     class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                     required
@@ -134,95 +135,128 @@
 
                 <div class="mt-4">
                   <label
-                    for="carType"
-                    class="block mb-2 text-sm font-medium text-indigo-900"
-                    >Car Type</label
+                    for="firstName"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >First Name</label
                   >
-                  <select
-                    id="carType"
+                  <input
+                    [(ngModel)]="driverLicenseInfo.firstName"
+                    oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')"
+                    type="text"
+                    id="firstName"
                     class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    placeholder="EX/ Vincent"
                     required
-                  >
-                    <option value="" disabled selected>Select Car Type</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="SUV">SUV</option>
-                    <option value="truck">Truck</option>
-                    <option value="van">Van</option>
-                  </select>
+                  />
                 </div>
 
-                <div class="grid max-w-2xl mx-auto">
-                  <div
-                    class="items-center align-middle justify-center mt-8 text-[#202142]"
+                <div class="mt-6">
+                  <label
+                    for="lastName"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >Last Name</label
                   >
-                    <div
-                      class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
-                    >
-                      <div class="w-full">
-                        <label
-                          for="carBrandSelect"
-                          class="block mb-2 text-sm font-medium text-indigo-900"
-                          >Select Car Brand</label
-                        >
-                        <select
-                          id="carBrandSelect"
-                          class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                          required
-                        >
-                          <option value="" disabled selected>
-                            Select Car Brand
-                          </option>
-                          <option></option>
-                        </select>
-                      </div>
+                  <input
+                    [(ngModel)]="driverLicenseInfo.lastName"
+                    oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')"
+                    type="text"
+                    id="lastName"
+                    class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    placeholder="EX/ Doe"
+                    required
+                  />
+                </div>
 
-                      <div class="w-full">
-                        <label
-                          for="carModelSelect"
-                          class="block mb-2 text-sm font-medium text-indigo-900"
-                          >Select Car Model</label
-                        >
+                <div class="mt-4">
+                  <label
+                    for="addressStreet"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >Street Address</label
+                  >
+                  <input
+                    [(ngModel)]="driverLicenseInfo.addressStreet"
+                    oninput="this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '')"
+                    type="text"
+                    id="addressStreet"
+                    class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    placeholder="EX/ 123 Main Street"
+                    required
+                  />
+                </div>
 
-                        <input
-                          oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')"
-                          minlength="1"
-                          type="text"
-                          id="carModelOther"
-                          class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                          placeholder="Ex/Accord"
-                          required
-                        />
+                <div class="mt-4">
+                  <label
+                    for="addressCity"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >City</label
+                  >
+                  <input
+                    [(ngModel)]="driverLicenseInfo.addressCity"
+                    oninput="this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '')"
+                    type="text"
+                    id="addressCity"
+                    class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    placeholder="EX/ Los Angeles"
+                    required
+                  />
+                </div>
 
-                        <ng-template #elseBlock>
-                          <select
-                            id="carModelSelect"
-                            class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                            required
-                          >
-                            <option value="" disabled selected>
-                              Select Car Model
-                            </option>
-                            <option></option>
-                          </select>
-                        </ng-template>
-                      </div>
-                    </div>
-                    <div
-                      class="flex flex-col items-center align-middle justify-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
-                    ></div>
+                <div class="mt-4">
+                  <label
+                    for="zipcode"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >Zipcode</label
+                  >
+                  <input
+                    minlength="0"
+                    maxlength="5"
+                    [(ngModel)]="driverLicenseInfo.addressZipcode"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    type="text"
+                    id="zipcode"
+                    class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    placeholder="EX/ 92121"
+                    required
+                  />
+                </div>
 
-                    <!-- Add Logic to save -->
-                    <div
-                      class="flex flex-col justify-center items-center mx-auto"
-                    >
-                      <button
-                        type="submit"
-                        class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
+                <div class="mt-4">
+                  <label
+                    for="expDate"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >Exp Date</label
+                  >
+                  <input
+                    [(ngModel)]="driverLicenseInfo.expDate"
+                    type="date"
+                    class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full ps-2 p-2.5"
+                    placeholder="Select date"
+                    required
+                  />
+                </div>
+
+                <div class="mt-4">
+                  <label
+                    for="birthDate"
+                    class="block mb-2 text-md font-medium text-indigo-900"
+                    >Date of Birth</label
+                  >
+                  <input
+                    [(ngModel)]="driverLicenseInfo.birthDate"
+                    type="date"
+                    class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full ps-2 p-2.5"
+                    placeholder="Select date"
+                    required
+                  />
+                </div>
+
+                <div class="flex flex-col justify-center items-center mx-auto">
+                  <button
+                    type="submit"
+                    class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
+                  >
+                    Update
+                  </button>
                 </div>
               </div>
             </div>

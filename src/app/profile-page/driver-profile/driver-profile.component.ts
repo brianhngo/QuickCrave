@@ -349,7 +349,6 @@ export class DriverProfileComponent implements OnInit {
   isViewDriverLicenseInfo: boolean = false;
 
   openDriverLicenseModalInfo() {
-    console.log(this.driverLicenseInfo);
     this.isViewDriverLicenseInfo = true;
   }
 
