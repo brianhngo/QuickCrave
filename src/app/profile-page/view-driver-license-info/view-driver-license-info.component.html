@@ -28,24 +28,32 @@
                   View Driver License
                 </h2>
 
-                <div class="flex justify-center mt-4">
-                  <div class="w-1/2 p-2">
+                <div
+                  *ngIf="
+                    driverLicenseFrontFirebase || driverLicenseBackFirebase
+                  "
+                  class="flex flex-col items-center"
+                >
+                  <div class="p-2 mx-auto" *ngIf="driverLicenseFrontFirebase">
                     <img
-                      src="path/to/front-license-image.jpg"
-                      alt="Driver License Front"
-                      class="w-full rounded-lg shadow-md"
+                      [src]="driverLicenseFrontFirebase"
+                      (click)="openLink(driverLicenseFrontFirebase)"
+                      alt="Front"
+                      class="w-32 h-24 rounded-lg shadow-md object-cover cursor-pointer"
                     />
-                    <p class="text-center mt-2 text-sm text-indigo-900">
+                    <p class="text-center mt-2 text-md text-indigo-900">
                       Front
                     </p>
                   </div>
-                  <div class="w-1/2 p-2">
+
+                  <div class="p-2 mx-auto" *ngIf="driverLicenseBackFirebase">
                     <img
-                      src="path/to/back-license-image.jpg"
-                      alt="Driver License Back"
-                      class="w-full rounded-lg shadow-md"
+                      [src]="driverLicenseBackFirebase"
+                      (click)="openLink(driverLicenseBackFirebase)"
+                      alt="Back"
+                      class="w-32 h-24 rounded-lg shadow-md object-cover cursor-pointer"
                     />
-                    <p class="text-center mt-2 text-sm text-indigo-900">Back</p>
+                    <p class="text-center mt-2 text-md text-indigo-900">Back</p>
                   </div>
                 </div>
 
@@ -250,10 +258,12 @@
                   />
                 </div>
 
-                <div class="flex flex-col justify-center items-center mx-auto">
+                <div
+                  class="flex flex-col mt-3 justify-center items-center mx-auto"
+                >
                   <button
                     type="submit"
-                    class="text-white w-[75px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
+                    class="text-white w-[100px] bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center block"
                   >
                     Update
                   </button>
