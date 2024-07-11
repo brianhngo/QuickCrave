@@ -17,7 +17,8 @@
 .modal-dialog {
   position: relative;
   margin: 10% auto;
-  width: 80%;
+  height: 80vh;
+  width: 70vw;
   max-width: 600px;
   background-color: #fff;
   border-radius: 5px;
@@ -26,6 +27,7 @@
 .modal-content {
   padding: 5px;
   overflow-y: auto;
+  /* height: 70%; */
   /* height: 600px; */
 }
 

@@ -297,6 +297,7 @@ export class AddCarModalComponent {
 
   onDefaultHandler() {
     this.userSelectedInput.isDefault = !this.userSelectedInput.isDefault;
+    console.log(this.userSelectedInput.isDefault, this.userSelectedInput);
   }
 
   async addCarHandler() {
@@ -305,22 +306,23 @@ export class AddCarModalComponent {
         return;
       }
 
+      console.log(this.userSelectedInput.isDefault);
       if (this.userSelectedInput.isDefault) {
-        // if isDefault is true, we need to change all the rest to false
-        const { error } = await supabase
+        // If isDefault is true, update all other records to false
+        const { error: updateError } = await supabase
           .from('driver')
           .update({ isDefault: false })
           .eq('firebaseId', auth.currentUser?.uid)
           .eq('isDefault', true);
-        if (error) {
-          console.log(error);
-        } else {
-          this.closeAddCarModal();
+
+        if (updateError) {
+          console.log(updateError);
+          return;
         }
       }
 
-      const { error } = await supabase.from('driver').insert({
-        // new isDefault
+      console.log(this.userSelectedInput.carInfo);
+      const { error: insertError } = await supabase.from('driver').insert({
         carInfo: {
           state: this.userSelectedInput.carInfo.state,
           carType: this.userSelectedInput.carInfo.carType,
@@ -334,9 +336,10 @@ export class AddCarModalComponent {
         firebaseId: auth.currentUser?.uid,
       });
 
-      if (error) {
-        console.log(error);
+      if (insertError) {
+        console.log(insertError);
       } else {
+        console.log('hello');
         this.getCarList();
         this.closeAddCarModal();
       }
